@@ -22,8 +22,8 @@
             <!--User Record Dropdown-->
                 <div class="input-field col s12 m6 l6">
                     <mz-select-container>
-                    <select mz-select [label]="'User Saved Records'" [placeholder]="'User Saved Records'" id="user-record-options-select" >
-                        <option *ngFor="let userRecord of userSavedRecords" (change)="selectNutritionRecord(userRecord)">{{userRecord.RecordName}}</option>
+                    <select mz-select [label]="'User Saved Records'" [placeholder]="'User Saved Records'" id="user-record-options-select" (change)="userSavedRecordSelectChange($event)">
+                        <option *ngFor="let userRecord of userSavedRecords">{{userRecord.RecordName}}</option>
                     </select>
                     </mz-select-container>
                 </div>
@@ -46,7 +46,7 @@
                     <!--Record Name Textbox-->
                     <div class="input-field valign center">
                         <mz-input-container>
-                            <input mz-input [label]="Test" placeholder="Record Name" class="valign center">
+                            <input mz-input [label]="Test" placeholder="Record Name" [(ngModel)]="currentRecord.RecordName" class="valign center">
                         </mz-input-container>
                     </div>
                     <!--Nutrient Textboxes-->
