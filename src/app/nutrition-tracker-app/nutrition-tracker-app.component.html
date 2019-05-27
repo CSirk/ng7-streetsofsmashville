@@ -3,19 +3,25 @@
     <h4>{{appName}}</h4>
   </div>
 </div>
+<!--Retrieve User By Id-->
 <div class="row">
   <div class="col s12 m12 l12 valign center input-field">
-    <input mz-input id="userIdTextArea" class="valign center" placeholder="User Id">
-    <button mz-button class="btn" (click)="retrieveNutritionRecordsForUser()">Retrieve User</button>
+    <input mz-input id="userIdTextArea" class="valign center" placeholder="User Id" [(ngModel)]="currentUser" (keyup)="deloadUser($event)">
+    <button mz-button class="btn" (click)="retrieveNutritionRecordsForUser()" >Retrieve User</button>
   </div>
 </div>
+<!--Api Call Spinner-->
 <div *ngIf="showThrobber" class="row">
   <spinner></spinner>
 </div>
 <div class="row">
   <div *ngIf="userLoaded" class="col s12" id="tabarea">
     <mz-tab [fixedTabWidth]="'true'">
-        <mz-tab-item [label]="'View Records'">Tab 3</mz-tab-item>
+        <!--View Progress Tab-->
+        <mz-tab-item [label]="'View Progress'">
+
+        </mz-tab-item>
+        <!--Add Record Tab-->
         <mz-tab-item [active]="'true'" [label]="'Add Record'">
             
             <div class="row">
@@ -46,20 +52,28 @@
                     <!--Record Name Textbox-->
                     <div class="input-field valign center">
                         <mz-input-container>
-                            <input mz-input [label]="Test" placeholder="Record Name" [(ngModel)]="currentRecord.RecordName" class="valign center">
+                            <input mz-input [label]="'Record Name'" [(ngModel)]="currentRecord.RecordName" class="valign center">
                         </mz-input-container>
                     </div>
                     <!--Nutrient Textboxes-->
                     <div *ngFor="let nutrient of currentRecord.Nutrients">
                         <div class="input-field col s3 m3 l3 valign center">
                             <mz-input-container>
-                                <input mz-input [label]="Test" placeholder={{nutrient.Name}} [(ngModel)]="nutrient.Amount" class="valign center">
+                                <input mz-input [label]="nutrient.Name" [(ngModel)]="nutrient.Amount" class="valign center">
                             </mz-input-container>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <button class="btn" onclick="addNutritionRecord()">Add Nutrition Record</button>
+                    <div class="col s4 m4 l4">
+                        <button class="btn" onclick="addNutritionRecord()">Add Daily One Time Record</button>
+                    </div>
+                    <div class="col s4 m4 l4">
+                        <button class="btn" onclick="saveAndAddNutritionRecord()">Add And Save As User Record</button>
+                    </div>
+                    <div class="col s4 m4 l4">
+                        <button class="btn" onclick="saveNutritionRecord()">Save As User Record</button>
+                    </div>
                 </div>
             </div>
         </mz-tab-item>

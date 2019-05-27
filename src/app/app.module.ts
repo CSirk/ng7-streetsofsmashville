@@ -8,6 +8,7 @@ import { NutritionTrackerAppModule } from './nutrition-tracker-app/nutrition-tra
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     AppRoutingModule,
     MzButtonModule,
     MzSelectModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

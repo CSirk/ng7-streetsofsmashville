@@ -12,6 +12,7 @@ import { NutritionTrackerAppRoutingModule } from './nutrition-tracker-app-routin
 import { NutritionTrackerAppComponent } from './nutrition-tracker-app.component';
 import { SpinnerComponent } from '../spinner/spinner.component';
 
+import { NutritionTrackerAppService } from './nutrition-tracker-app.service';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,6 @@ import { SpinnerComponent } from '../spinner/spinner.component';
     MzInputModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ NutritionTrackerAppService],
 })
 export class NutritionTrackerAppModule { }
