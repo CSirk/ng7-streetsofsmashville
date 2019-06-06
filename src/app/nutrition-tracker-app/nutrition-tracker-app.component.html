@@ -7,7 +7,7 @@
 <div class="row">
   <div class="col s12 m12 l12 valign center input-field">
     <input mz-input id="userIdTextArea" class="valign center" placeholder="User Id" [(ngModel)]="currentUser" (keyup)="deloadUser($event)">
-    <button mz-button class="btn" (click)="retrieveNutritionRecordsForUser()" >Retrieve User</button>
+    <button mz-button class="btn" (click)="retriveNutritionDataForUser()" >Retrieve User</button>
   </div>
 </div>
 <!--Api Call Spinner-->
@@ -19,14 +19,21 @@
     <mz-tab [fixedTabWidth]="'true'">
         <!--View Progress Tab-->
         <mz-tab-item [label]="'View Progress'">
-
+            <table class="centered">
+                <thead>
+                    <tr>
+                        <th *ngFor="let nutrient of goalRecord.Nutrients">{{nutrient.Name}}</th>
+                    </tr>
+                </thead>
+            </table>
+                <!--<table class="centered"><thead><tr><th>Type</th><th>Calories</th><th>Fat (g)</th><th>Saturated Fat (g)</th><th>Sodium (mg)</th><th>Carbohydrates (g)</th><th>Cholesterol (mg)</th><th>Sugar (g)</th><th>Fiber (g)</th><th>Protein (g)</th><th>Potassium (mg)</th><th>Vitamin A (mcg)</th><th>Vitamin B1 (mg)</th><th>Vitamin B2 (mg)</th><th>Vitamin B3 (mg)</th><th>Vitamin B5 (mg)</th><th>Vitamin B6 (mg)</th><th>Vitamin B12 (mcg)</th><th>Vitamin C (mg)</th><th>Vitamin D (mcg)</th><th>Vitamin E (mg)</th><th>Vitamin H (mcg)</th><th>Vitamin K (mcg)</th><th>Folic Acid (mcg)</th><th>Calcium (mg)</th><th>Iron (mg)</th><th>Zinc (mg)</th><th>Chromium (mcg)</th><th>Magnesium (mg)</th><th>Caffeine (mg)</th><th>Water (oz)</th></tr></thead><tbody>';-->
         </mz-tab-item>
         <!--Add Record Tab-->
         <mz-tab-item [active]="'true'" [label]="'Add Record'">
             
             <div class="row">
             <!--User Record Dropdown-->
-                <div class="input-field col s12 m6 l6">
+                <div class="input-field col s12 m6 l6" (click)="preventDefault($event)">
                     <mz-select-container>
                     <select mz-select [label]="'User Saved Records'" [placeholder]="'User Saved Records'" id="user-record-options-select" (change)="userSavedRecordSelectChange($event)">
                         <option *ngFor="let userRecord of userSavedRecords">{{userRecord.RecordName}}</option>
@@ -35,7 +42,7 @@
                 </div>
 
                 <!--Global Record Dropdown-->
-                <div class="input-field col s12 m6 l6">
+                <div class="input-field col s12 m6 l6" (click)="preventDefault($event)">
                     <mz-select-container>
                     <select mz-select [label]="'Global Saved Records'" [placeholder]="'Global Saved Records'" id="global-record-options-select" >
                         <option *ngFor="let globalRecord of globalSavedRecords">{{globalRecord.RecordName}}</option>
@@ -81,6 +88,3 @@
     </mz-tab>
   </div>
 </div>
-
-
-
