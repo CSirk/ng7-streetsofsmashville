@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { NutritionRecordAggregate } from './models/nutrition-record-aggregate';
 import { NutritionProgressAggregate } from './models/nutrition-progress-aggregate';
+import { NutritionRecord } from './models/nutrition-record';
 
 @Injectable()
 export class NutritionTrackerAppService {
@@ -20,4 +21,9 @@ export class NutritionTrackerAppService {
         let url = this.baseUrl + 'nutritionprogress/getbyuserid/' + userId;
         return this.http.get<NutritionProgressAggregate>(url).toPromise();
    };
+
+   public addNutritionRecord(nutritionRecordToAdd: NutritionRecord) : Promise<boolean> {
+        let url = this.baseUrl + 'nutritionrecords/addrecord';
+        return this.http.post<boolean>(url, nutritionRecordToAdd).toPromise();
+   }
 }

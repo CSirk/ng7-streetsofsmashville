@@ -33,7 +33,7 @@
             
             <div class="row">
             <!--User Record Dropdown-->
-                <div class="input-field col s12 m6 l6" (click)="preventDefault($event)">
+                <div class="input-field col s12 m6 l6" (click)="preventDefAndProp($event)">
                     <mz-select-container>
                     <select mz-select [label]="'User Saved Records'" [placeholder]="'User Saved Records'" id="user-record-options-select" (change)="userSavedRecordSelectChange($event)">
                         <option *ngFor="let userRecord of userSavedRecords">{{userRecord.RecordName}}</option>
@@ -42,7 +42,7 @@
                 </div>
 
                 <!--Global Record Dropdown-->
-                <div class="input-field col s12 m6 l6" (click)="preventDefault($event)">
+                <div class="input-field col s12 m6 l6" (click)="preventDefAndProp($event)">
                     <mz-select-container>
                     <select mz-select [label]="'Global Saved Records'" [placeholder]="'Global Saved Records'" id="global-record-options-select" >
                         <option *ngFor="let globalRecord of globalSavedRecords">{{globalRecord.RecordName}}</option>
@@ -72,14 +72,11 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s4 m4 l4">
-                        <button class="btn" onclick="addNutritionRecord()">Add Daily One Time Record</button>
+                    <div class="col s6 m6 l6">
+                        <button class="btn" onclick="addNutritionRecord(addNutritionRecord(false))">Add Daily One Time Record</button>
                     </div>
-                    <div class="col s4 m4 l4">
-                        <button class="btn" onclick="saveAndAddNutritionRecord()">Add And Save As User Record</button>
-                    </div>
-                    <div class="col s4 m4 l4">
-                        <button class="btn" onclick="saveNutritionRecord()">Save As User Record</button>
+                    <div class="col s6 m6 l6">
+                        <button class="btn" onclick="saveNutritionRecord(addNutritionRecord(true))">Save As User Record</button>
                     </div>
                 </div>
             </div>
