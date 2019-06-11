@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { MzButtonModule } from 'ngx-materialize';
-import { MzSelectModule } from 'ngx-materialize';
 
 @Component({
   selector: 'app-root',

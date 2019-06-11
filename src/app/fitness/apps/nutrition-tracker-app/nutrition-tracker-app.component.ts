@@ -5,7 +5,7 @@ import { NutritionRecordAggregate } from './models/nutrition-record-aggregate';
 import { NutrientProgressRecord } from './models/nutrient-progress-record';
 
 @Component({
-  templateUrl: './nutrition-tracker-app.component.html',
+  templateUrl: './nutrition-tracker-app.component.html'
 })
 export class NutritionTrackerAppComponent {
   public currentUser: string;

@@ -10,11 +10,11 @@ import { MzIconModule, MzIconMdiModule } from 'ngx-materialize';
 import { FormsModule } from '@angular/forms';
 
 
-import { NutritionTrackerAppRoutingModule } from './nutrition-tracker-app-routing.module';
-import { NutritionTrackerAppComponent } from './nutrition-tracker-app.component';
-import { SpinnerComponent } from '../spinner/spinner.component';
+import { FitnessRoutingModule } from './fitness-routing.module';
+import { NutritionTrackerAppComponent } from './apps/nutrition-tracker-app/nutrition-tracker-app.component';
+import { SpinnerComponent } from '../common/spinner/spinner.component';
 
-import { NutritionTrackerAppService } from './nutrition-tracker-app.service';
+import { NutritionTrackerAppService } from './apps/nutrition-tracker-app/nutrition-tracker-app.service';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,7 @@ import { NutritionTrackerAppService } from './nutrition-tracker-app.service';
   ],
   imports: [
     CommonModule,
-    NutritionTrackerAppRoutingModule,
+    FitnessRoutingModule,
     MzButtonModule,
     MzSelectModule,
     MzTabModule,
@@ -36,4 +36,4 @@ import { NutritionTrackerAppService } from './nutrition-tracker-app.service';
   ],
   providers: [ NutritionTrackerAppService],
 })
-export class NutritionTrackerAppModule { }
+export class FitnessModule { }
