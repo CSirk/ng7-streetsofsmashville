@@ -4,7 +4,9 @@ import { MzButtonModule } from 'ngx-materialize';
 import { MzSelectModule } from 'ngx-materialize';
 import { MzInputModule } from 'ngx-materialize';
 import { MzTabModule } from 'ngx-materialize';
-
+import { MzCardModule } from 'ngx-materialize';
+import { MzProgressModule } from 'ngx-materialize';
+import { MzIconModule, MzIconMdiModule } from 'ngx-materialize';
 import { FormsModule } from '@angular/forms';
 
 
@@ -26,6 +28,10 @@ import { NutritionTrackerAppService } from './nutrition-tracker-app.service';
     MzSelectModule,
     MzTabModule,
     MzInputModule,
+    MzCardModule,
+    MzProgressModule,
+    MzIconMdiModule,
+    MzIconModule,
     FormsModule
   ],
   providers: [ NutritionTrackerAppService],

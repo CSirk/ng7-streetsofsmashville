@@ -19,14 +19,18 @@
     <mz-tab [fixedTabWidth]="'true'">
         <!--View Progress Tab-->
         <mz-tab-item [label]="'View Progress'">
-            <table class="centered">
-                <thead>
-                    <tr>
-                        <th *ngFor="let nutrient of goalRecord.Nutrients">{{nutrient.Name}}</th>
-                    </tr>
-                </thead>
-            </table>
-                <!--<table class="centered"><thead><tr><th>Type</th><th>Calories</th><th>Fat (g)</th><th>Saturated Fat (g)</th><th>Sodium (mg)</th><th>Carbohydrates (g)</th><th>Cholesterol (mg)</th><th>Sugar (g)</th><th>Fiber (g)</th><th>Protein (g)</th><th>Potassium (mg)</th><th>Vitamin A (mcg)</th><th>Vitamin B1 (mg)</th><th>Vitamin B2 (mg)</th><th>Vitamin B3 (mg)</th><th>Vitamin B5 (mg)</th><th>Vitamin B6 (mg)</th><th>Vitamin B12 (mcg)</th><th>Vitamin C (mg)</th><th>Vitamin D (mcg)</th><th>Vitamin E (mg)</th><th>Vitamin H (mcg)</th><th>Vitamin K (mcg)</th><th>Folic Acid (mcg)</th><th>Calcium (mg)</th><th>Iron (mg)</th><th>Zinc (mg)</th><th>Chromium (mcg)</th><th>Magnesium (mg)</th><th>Caffeine (mg)</th><th>Water (oz)</th></tr></thead><tbody>';-->
+            <div *ngFor="let record of nutrientProgressRecords" class="col s6 m4 l4">
+                <mz-card>
+                    <mz-card-title>{{record.NutrientName}} </mz-card-title>
+                    <mz-card-content>
+                        <mz-progress *ngIf="record.NutrientGoalIsHigh" [backgroundClass]="'grey lighten-4'" [percentage]="record.NutrientProgressAmount == 0 ? 0 : (record.NutrientProgressAmount / record.NutrientGoalAmount) * 100" [progressClass]="'green'"></mz-progress>
+                        <mz-progress *ngIf="!record.NutrientGoalIsHigh" [backgroundClass]="'grey lighten-4'" [percentage]="record.NutrientProgressAmount == 0 ? 0 : (record.NutrientProgressAmount / record.NutrientGoalAmount) * 100" [progressClass]="'red'"></mz-progress>
+                        <h3>Remaining : {{record.NutrientRemainingAmount}} {{record.NutrientMeasurementAbbreviation}}</h3>
+                        <h4>Progress : {{record.NutrientProgressAmount}} {{record.NutrientMeasurementAbbreviation}}</h4>
+                        <h4>Goal : {{record.NutrientGoalAmount}} {{record.NutrientMeasurement}}</h4>
+                    </mz-card-content>
+                </mz-card>
+            </div>
         </mz-tab-item>
         <!--Add Record Tab-->
         <mz-tab-item [active]="'true'" [label]="'Add Record'">
@@ -50,7 +54,7 @@
                     </mz-select-container>
                 </div>
             </div>
-
+            <!--Add Nutrition Record Area-->
             <div class="col s12 m12 l12 valign center">
                 <h4><u>Add Nutrition Record</u></h4>
             </div>
@@ -72,16 +76,28 @@
                     </div>
                 </div>
                 <div class="row">
+                    <!--Add single daily user record-->
                     <div class="col s6 m6 l6">
-                        <button class="btn" onclick="addNutritionRecord(addNutritionRecord(false))">Add Daily One Time Record</button>
+                        <button class="btn" (click)="addNutritionRecord(false)">Add Daily One Time Record</button>
                     </div>
+                    <!--Add saved user record-->
                     <div class="col s6 m6 l6">
-                        <button class="btn" onclick="saveNutritionRecord(addNutritionRecord(true))">Save As User Record</button>
+                        <button class="btn" (click)="addNutritionRecord(true)">Save As User Record</button>
                     </div>
                 </div>
             </div>
         </mz-tab-item>
-        <mz-tab-item [label]="'Edit Records'">Tab 2</mz-tab-item>
+        <!--Edit Record Tab-->
+        <mz-tab-item [label]="'Edit Records'">
+            <div *ngFor="let record of userNutritionRecordAggregate.UserNutritionRecords" class="col s6 m4 l4">
+                <mz-card>
+                    <mz-card-title>
+                        <i mz-icon [align]="'right'" [icon]="'delete'" [size]="'small'" (click)="deleteNutritionRecord(record)"></i>
+                        {{record.RecordName}} 
+                    </mz-card-title>
+                </mz-card>
+            </div>
+        </mz-tab-item>
     </mz-tab>
   </div>
 </div>

@@ -1,14 +1,8 @@
 import { Component } from '@angular/core';
-import { MzButtonModule } from 'ngx-materialize';
-import { MzSelectModule } from 'ngx-materialize';
-import { MzInputModule } from 'ngx-materialize';
-import { MzTabModule } from 'ngx-materialize';
 import { NutritionRecord } from './models/nutrition-record';
-import { Nutrient } from './models/nutrient';
 import { NutritionTrackerAppService } from './nutrition-tracker-app.service';
 import { NutritionRecordAggregate } from './models/nutrition-record-aggregate';
-import { NutritionProgressAggregate } from './models/nutrition-progress-aggregate';
-import { NutritionGoal } from './models/nutrition-goal';
+import { NutrientProgressRecord } from './models/nutrient-progress-record';
 
 @Component({
   templateUrl: './nutrition-tracker-app.component.html',
@@ -19,14 +13,11 @@ export class NutritionTrackerAppComponent {
   public userLoaded: boolean;
   public userSavedRecords: NutritionRecord[] = new Array();
   public globalSavedRecords: NutritionRecord[] = new Array();
-  public goalRecord: NutritionGoal = new NutritionGoal();
   public currentRecord: NutritionRecord = new NutritionRecord();
   public userNutritionRecordAggregate: NutritionRecordAggregate = new NutritionRecordAggregate();
-  public userNutritionProgressAggregate: NutritionProgressAggregate = new NutritionProgressAggregate();
+  public nutrientProgressRecords: NutrientProgressRecord[] = new Array();
 
-  constructor(public NutritionTrackerAppService: NutritionTrackerAppService) {
-    this.userNutritionProgressAggregate.NutritionGoal = new NutritionGoal();
-  }
+  constructor(public NutritionTrackerAppService: NutritionTrackerAppService) {}
 
   public userSavedRecordSelectChange (event: any) {
     let pos = this.userSavedRecords.map(function(e) { return e.RecordName; }).indexOf(event.target.value);
@@ -63,22 +54,30 @@ export class NutritionTrackerAppComponent {
       this.currentRecord = this.userNutritionRecordAggregate.BaseNutritionRecord;
     })
     .then(() => {
-      this.NutritionTrackerAppService.getNutritionProgressByUserId(this.currentUser)
+      this.NutritionTrackerAppService.getNutrientProgressByUserId(this.currentUser)
       .then((data) => {
-          this.userNutritionProgressAggregate = data;
-          this.goalRecord = this.userNutritionProgressAggregate.NutritionGoal;
-          this.userLoaded = true;
-          this.showThrobber = false;
-        })
+        this.nutrientProgressRecords = data;
+        this.userLoaded = true;
+        this.showThrobber = false;
+      })
     })
   };
 
   public addNutritionRecord(saveUserRecord: boolean) : void {
     this.showThrobber = true;
+    this.currentRecord.UserId = this.currentUser;
     this.currentRecord.RecordType = (saveUserRecord == true) ? "UserSaved" : "UserDaily";
+
     this.NutritionTrackerAppService.addNutritionRecord(this.currentRecord)
     .then(() => {
       this.retriveNutritionDataForUser()
     })
+  };
+
+  public deleteNutritionRecord(nutritionRecord: NutritionRecord) {
+    this.NutritionTrackerAppService.deleteNutritionRecord(nutritionRecord)
+    .then(() => {
+      this.retriveNutritionDataForUser();
+    });
   }
 }
