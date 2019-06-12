@@ -11,9 +11,10 @@ import { HomeComponent } from './home/home-component';
 import { NotFoundComponent } from './not-found/not-found-component';
 import { HeaderComponent } from './common/header/header.component';
 
-import { MzNavbarModule } from 'ngx-materialize'
-
-
+import { MzNavbarModule } from 'ngx-materialize';
+import { MzSidenavModule } from 'ngx-materialize';
+import { MzCollapsibleModule } from 'ngx-materialize';
+import { MzIconModule, MzIconMdiModule } from 'ngx-materialize';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,11 @@ import { MzNavbarModule } from 'ngx-materialize'
     MzSelectModule,
     HttpClientModule,
     FitnessModule,
-    MzNavbarModule
+    MzNavbarModule,
+    MzSidenavModule,
+    MzCollapsibleModule,
+    MzIconModule, 
+    MzIconMdiModule
   ],
   providers: [],
   bootstrap: [AppComponent]

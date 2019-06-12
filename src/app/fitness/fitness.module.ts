@@ -8,6 +8,7 @@ import { MzCardModule } from 'ngx-materialize';
 import { MzProgressModule } from 'ngx-materialize';
 import { MzIconModule, MzIconMdiModule } from 'ngx-materialize';
 import { FormsModule } from '@angular/forms';
+import { MzSidenavModule } from 'ngx-materialize';
 
 
 import { FitnessRoutingModule } from './fitness-routing.module';
@@ -32,7 +33,8 @@ import { NutritionTrackerAppService } from './apps/nutrition-tracker-app/nutriti
     MzProgressModule,
     MzIconMdiModule,
     MzIconModule,
-    FormsModule
+    FormsModule,
+    MzSidenavModule
   ],
   providers: [ NutritionTrackerAppService],
 })

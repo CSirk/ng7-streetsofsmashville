@@ -1,8 +1,39 @@
 <mz-navbar>
-    <a href="#" class="brand-logo">Logo</a>
-    <mz-navbar-item-container [align]="'right'">
-      <mz-navbar-item><a href="#">Sass</a></mz-navbar-item>
-      <mz-navbar-item><a href="#">Components</a></mz-navbar-item>
-      <mz-navbar-item><a routerLink="js">JavaScript</a></mz-navbar-item>
+    <a routerLink="/home" class="brand-logo left">Streets of Smashville</a>
+    <mz-navbar-item-container [align]="'right'" class="navbartop">
+        <mz-navbar-item><a id="fitsidenavlink">Fitness</a></mz-navbar-item>
+        <mz-navbar-item><a id="codesidenavlink">Code</a></mz-navbar-item>
+        <!-- <mz-navbar-item><a routerLink="js">JavaScript</a></mz-navbar-item>
+        <mz-navbar-item>
+        <a class="dropdown-button" href="javascript:void(0)" data-activates="dropdown1">
+            Dropdown
+            <i class="material-icons right">arrow_drop_down</i>
+        </a>
+        </mz-navbar-item> -->
     </mz-navbar-item-container>
-  </mz-navbar>
+</mz-navbar>
+
+<mz-sidenav [id]="'fitsidenav'" [collapseButtonId]="'fitsidenavlink'" [edge]="'right'">
+    <mz-sidenav-header><h4>Fitness</h4></mz-sidenav-header>
+    <mz-sidenav-divider></mz-sidenav-divider>
+    <mz-sidenav-link><a href="#">About</a></mz-sidenav-link>
+    <mz-sidenav-link><a href="#">Downloads</a></mz-sidenav-link>
+    <mz-sidenav-link><a href="#">Guides</a></mz-sidenav-link>
+    <mz-sidenav-collapsible>
+        <mz-sidenav-collapsible-header> <i mz-icon [align]="'right'" [icon]="'expand_more'" [size]="'medium'"></i>Apps</mz-sidenav-collapsible-header>
+        <mz-sidenav-collapsible-content>
+            <mz-sidenav-link><a routerLink="/fitness/apps/nutrition-tracker-app" class="waves-effect">Nutrition Tracker</a></mz-sidenav-link>
+        </mz-sidenav-collapsible-content>
+    </mz-sidenav-collapsible>
+    <mz-sidenav-link><a href="#">Nutrition</a></mz-sidenav-link>
+    <mz-sidenav-link><a href="#" class="waves-effect">Second Link With Waves</a></mz-sidenav-link>
+</mz-sidenav>
+
+<mz-sidenav [id]="'codesidenav'" [collapseButtonId]="'codesidenavlink'" [edge]="'right'">
+  <mz-sidenav-header>Code</mz-sidenav-header>
+  <mz-sidenav-link><a href="#">First Link</a></mz-sidenav-link>
+  <mz-sidenav-divider></mz-sidenav-divider>
+  <mz-sidenav-link [active]="true"><a href="#">Active Link</a></mz-sidenav-link>
+  <mz-sidenav-divider></mz-sidenav-divider>
+  <mz-sidenav-link><a href="#" class="waves-effect">Second Link With Waves</a></mz-sidenav-link>
+</mz-sidenav>

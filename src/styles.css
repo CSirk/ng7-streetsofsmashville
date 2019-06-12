@@ -1,1 +1,70 @@
 /* You can add global styles to this file, and also import other style files */
+/* Navbar */
+nav .nav-wrapper{
+    background-color: #0000ae;
+}
+
+/* Sidebar Background Color */
+nav ul li {
+    background-color: #0000ae;
+}
+
+/* Sidebar Text Color */
+.side-nav a {
+    color: white;
+}
+
+/* Hover Main Title */
+nav .brand-logo:hover {
+    background-color: black;
+}
+
+/* Hover Side Link Color */
+nav ul li:hover {
+   background-color: black;
+}
+
+/* Hover Right Link Color */
+.nav-wrapper:hover {
+    color:black;
+}
+
+/* Dropdown links */
+.dropdown-content li>a {
+    color: white;
+}
+
+.dropdown-content li>a:hover {
+    background-color: black;
+}
+
+/* Tabs */
+.tabs .tab a {
+    color: #0000ae;
+}
+
+.tabs .tab a:hover {
+    color: black;
+}
+
+.tabs .indicator {
+    background-color: #0000ae;
+}
+
+/* Buttons */
+
+.btn {
+    background-color: #0000ae;
+}
+
+.btn:hover {
+    background-color: black;
+}
+
+.btn:active {
+    background-color: black;
+}
+
+.btn:focus {
+    background-color: black;
+}
