@@ -5,9 +5,10 @@ import { NutritionRecordAggregate } from './models/nutrition-record-aggregate';
 import { NutrientProgressRecord } from './models/nutrient-progress-record';
 
 @Component({
-  templateUrl: './nutrition-tracker-app.component.html',
+  templateUrl: './nutrition-tracker-app.component.html'
 })
 export class NutritionTrackerAppComponent {
+  public appName = "Nutrition Tracker App"
   public currentUser: string;
   public showThrobber: boolean;
   public userLoaded: boolean;
