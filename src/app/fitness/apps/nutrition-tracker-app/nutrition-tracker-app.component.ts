@@ -8,6 +8,7 @@ import { NutrientProgressRecord } from './models/nutrient-progress-record';
   templateUrl: './nutrition-tracker-app.component.html'
 })
 export class NutritionTrackerAppComponent {
+  public appName = "Nutrition Tracker App"
   public currentUser: string;
   public showThrobber: boolean;
   public userLoaded: boolean;

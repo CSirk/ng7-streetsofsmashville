@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MzButtonModule } from 'ngx-materialize';
 import { MzSelectModule } from 'ngx-materialize';
-import { FitnessModule } from './fitness/fitness.module';
+//import { FitnessModule } from './fitness/fitness.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -29,7 +29,7 @@ import { MzIconModule, MzIconMdiModule } from 'ngx-materialize';
     MzButtonModule,
     MzSelectModule,
     HttpClientModule,
-    FitnessModule,
+    //FitnessModule,
     MzNavbarModule,
     MzSidenavModule,
     MzCollapsibleModule,

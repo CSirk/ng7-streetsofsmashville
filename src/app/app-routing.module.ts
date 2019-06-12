@@ -6,7 +6,8 @@ import { NotFoundComponent } from './not-found/not-found-component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'fitness', loadChildren: () => import('./fitness/fitness.module').then(mod => mod.FitnessModule), data: {preLoad: true}},
+  //{ path: 'fitness', loadChildren: () => import('./fitness/fitness.module').then(mod => mod.FitnessModule), data: {preLoad: true}},
+  { path: 'fitness', loadChildren: "./fitness/fitness.module#FitnessModule" },
   { path: '', redirectTo: '/home', pathMatch:'full'}, //if no path is given
   { path: '**', component: NotFoundComponent}
 ];
