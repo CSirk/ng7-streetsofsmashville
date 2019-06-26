@@ -7,7 +7,7 @@
 <div class="row">
   <div class="col s12 m12 l12 valign center input-field">
     <input mz-input id="userIdTextArea" class="valign center" placeholder="User Id" [(ngModel)]="currentUser" (keyup)="deloadUser()">
-    <button mz-button class="btn" (click)="retriveNutritionDataForUser()" >Retrieve User</button>
+    <button mz-button class="btn" (click)="retriveNutritionDataForUser()">Retrieve User</button>
   </div>
 </div>
 <!--Api Call Spinner-->
@@ -70,7 +70,8 @@
                     <div *ngFor="let nutrient of currentRecord.Nutrients">
                         <div class="input-field col s3 m3 l3 valign center">
                             <mz-input-container>
-                                <input mz-input [label]="nutrient.Name" [(ngModel)]="nutrient.Amount" class="valign center">
+                                <input *ngIf="nutrient.Alias" mz-input [label]="nutrient.Name + ' (' + nutrient.MeasurementAbbreviation + ')'" mz-tooltip [tooltip]="nutrient.Alias" [position]="'top'" [(ngModel)]="nutrient.Amount" class="valign center"  (keydown)="convertPercentToNumber($event, nutrient)">
+                                <input *ngIf="!nutrient.Alias" mz-input [label]="nutrient.Name + ' (' + nutrient.MeasurementAbbreviation + ')'" [(ngModel)]="nutrient.Amount" class="valign center"  (keydown)="convertPercentToNumber($event, nutrient)">
                             </mz-input-container>
                         </div>
                     </div>
@@ -89,14 +90,29 @@
         </mz-tab-item>
         <!--Edit Record Tab-->
         <mz-tab-item [label]="'Edit Records'">
-            <div *ngFor="let record of userNutritionRecordAggregate.UserNutritionRecords" class="col s6 m4 l4">
-                <mz-card>
-                    <mz-card-title>
-                        <i mz-icon [align]="'right'" [icon]="'delete'" [size]="'small'" (click)="deleteNutritionRecord(record)"></i>
-                        {{record.RecordName}} 
-                    </mz-card-title>
-                </mz-card>
+            <div class="row">
+                <h3>Daily Records</h3>
+                <div *ngFor="let record of userNutritionRecordAggregate.UserNutritionRecords" class="col s6 m4 l4">
+                    <mz-card>
+                        <mz-card-title>
+                            <i mz-icon [align]="'right'" [icon]="'delete'" [size]="'small'" (click)="deleteNutritionRecord(record)"></i>
+                            {{record.RecordName}} 
+                        </mz-card-title>
+                    </mz-card>
+                </div>
             </div>
+            <div class="row">
+                <h3>Saved User Records</h3>
+                <div *ngFor="let record of userNutritionRecordAggregate.SavedUserNutritionRecords" class="col s6 m4 l4">
+                    <mz-card>
+                        <mz-card-title>
+                            <i mz-icon [align]="'right'" [icon]="'delete'" [size]="'small'" (click)="deleteNutritionRecord(record)"></i>
+                            {{record.RecordName}} 
+                        </mz-card-title>
+                    </mz-card>
+                </div>
+            </div>
+            
         </mz-tab-item>
     </mz-tab>
   </div>

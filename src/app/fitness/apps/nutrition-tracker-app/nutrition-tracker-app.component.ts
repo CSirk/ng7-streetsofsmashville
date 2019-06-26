@@ -3,6 +3,7 @@ import { NutritionRecord } from './models/nutrition-record';
 import { NutritionTrackerAppService } from './nutrition-tracker-app.service';
 import { NutritionRecordAggregate } from './models/nutrition-record-aggregate';
 import { NutrientProgressRecord } from './models/nutrient-progress-record';
+import { Nutrient } from './models/nutrient';
 
 @Component({
   templateUrl: './nutrition-tracker-app.component.html'
@@ -27,6 +28,24 @@ export class NutritionTrackerAppComponent {
     this.currentRecord = record;
   }
 
+  public convertPercentToNumber(event: any, nutrient: Nutrient) : void {
+    let charCode = String.fromCharCode(event.which).toLowerCase();
+    if (event.shiftKey && charCode === '5') {
+      //Stop % from showing in textbox
+      event.preventDefault();
+      
+      let record = new NutrientProgressRecord();
+      let modifiedName = nutrient.Name.replace(' ', '');
+
+      for(let i = 0; i < this.nutrientProgressRecords.length; i++) {
+        if(this.nutrientProgressRecords[i].NutrientName == modifiedName) {
+          record = this.nutrientProgressRecords[i];
+        }
+      }
+      nutrient.Amount = (nutrient.Amount * (record.NutrientGoalAmount * .01));
+    }
+  }
+  
   public preventDefAndProp(event: Event) : void {
     event.stopPropagation();
     event.preventDefault();
@@ -40,14 +59,16 @@ export class NutritionTrackerAppComponent {
     this.showThrobber = true;
     this.NutritionTrackerAppService.getNutritionRecordsByUserId(this.currentUser).then((data) => {
       this.userNutritionRecordAggregate = data;
-
+      console.log(data)
       if(data.SavedUserNutritionRecords) {
+        this.userSavedRecords = [];
         for(var i = 0; i < data.SavedUserNutritionRecords.length; i++) {
           this.userSavedRecords.push(data.SavedUserNutritionRecords[i])
         }
       }
 
       if(data.SavedGlobalNutritionRecords) {
+        this.globalSavedRecords = [];
         for(var i = 0; i < data.SavedGlobalNutritionRecords.length; i++) {
           this.globalSavedRecords.push(data.SavedGlobalNutritionRecords[i])
         }

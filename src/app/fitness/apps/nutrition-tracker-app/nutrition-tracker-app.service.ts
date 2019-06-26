@@ -10,8 +10,8 @@ export class NutritionTrackerAppService {
    constructor(private http: HttpClient) {}
 
    results: string[];
-   baseUrl: string = 'https://streetsofsmashvilleapi.azurewebsites.net/api/fitness/';
-   //baseUrl: string = 'https://localhost:5001/api/fitness/';
+   //baseUrl: string = 'https://streetsofsmashvilleapi.azurewebsites.net/api/fitness/';
+   baseUrl: string = 'https://localhost:5001/api/fitness/';
 
    public getNutritionRecordsByUserId(userId: string) : Promise<NutritionRecordAggregate> {
      let url = this.baseUrl + 'nutritionrecords/getbyuserid/' + userId;

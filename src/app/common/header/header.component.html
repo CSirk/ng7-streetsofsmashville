@@ -1,6 +1,6 @@
 <mz-navbar>
     <a routerLink="/home" class="brand-logo left">Streets of Smashville</a>
-    <mz-navbar-item-container [align]="'right'" class="navbartop">
+    <mz-navbar-item-container [align]="'right'">
         <mz-navbar-item><a id="fitsidenavlink">Fitness</a></mz-navbar-item>
         <mz-navbar-item><a id="codesidenavlink">Code</a></mz-navbar-item>
         <!-- <mz-navbar-item><a routerLink="js">JavaScript</a></mz-navbar-item>
@@ -11,13 +11,16 @@
         </a>
         </mz-navbar-item> -->
     </mz-navbar-item-container>
+    <mz-navbar-item-container [align]="'right'">
+    <mz-navbar-item><a class="dropdown-button">Test</a></mz-navbar-item>
+    </mz-navbar-item-container>
 </mz-navbar>
 
 <mz-sidenav [id]="'fitsidenav'" [collapseButtonId]="'fitsidenavlink'" [edge]="'right'">
     <mz-sidenav-header><h4>Fitness</h4></mz-sidenav-header>
     <mz-sidenav-divider></mz-sidenav-divider>
     <mz-sidenav-link><a href="#">About</a></mz-sidenav-link>
-    <mz-sidenav-link><a href="#">Downloads</a></mz-sidenav-link>
+    <mz-sidenav-link><a routerLink="/fitness/downloads">Downloads</a></mz-sidenav-link>
     <mz-sidenav-link><a href="#">Guides</a></mz-sidenav-link>
     <mz-sidenav-collapsible>
         <mz-sidenav-collapsible-header> <i mz-icon [align]="'right'" [icon]="'expand_more'" [size]="'medium'"></i>Apps</mz-sidenav-collapsible-header>

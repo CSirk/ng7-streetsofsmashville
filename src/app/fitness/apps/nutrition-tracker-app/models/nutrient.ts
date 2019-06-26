@@ -4,4 +4,6 @@ export class Nutrient {
     MeasurementAbbreviation: string;
     Amount: number;
     GoalIsHigh: boolean;
+    Alias: string;
+    DisplayOrder: number;
 }
