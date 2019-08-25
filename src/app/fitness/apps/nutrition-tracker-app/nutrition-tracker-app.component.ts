@@ -29,8 +29,12 @@ export class NutritionTrackerAppComponent {
   }
 
   public convertPercentToNumber(event: any, nutrient: Nutrient) : void {
+    console.log('here')
+    console.log(event)
     let charCode = String.fromCharCode(event.which).toLowerCase();
+    console.log(charCode)
     if (event.shiftKey && charCode === '5') {
+      console.log('yep')
       //Stop % from showing in textbox
       event.preventDefault();
       

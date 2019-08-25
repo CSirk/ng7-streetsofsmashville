@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="col s12 m12 l12 valign center">
+        <h4>Movie Collection Page</h4>
+        <div class="row">
+            <div class="input-field col s2 offset-s2 m2 offset-m5 l2 offset-l5" (click)="preventDefAndProp($event)">
+                <mz-select-container>
+                    <select mz-select id="user-record-options-select">
+                        <option *ngFor="let type of searchTypes">{{type}}</option>
+                    </select>
+                </mz-select-container>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12 m6 offset-m6 l6 offset-l3">
+                <input mz-input id="collectionSearchTerm" class="valign center" placeholder="Search Term" [(ngModel)]="collectionSearchTerm">
+            </div>
+        </div>
+        <div class="row">
+            <button mz-button class="btn" (click)="getMoviesByPartialTitle()">Search</button>
+        </div>
+        <div *ngFor="let record of movieRecords" class="col s12 m6 l4">
+            <mz-card>
+                <mz-card-title>
+                    {{record.Title}} 
+                </mz-card-title>
+                <mz-card-content>
+                    <img src={{record.LogoUrl}} height="200" width="200"/>
+                    <div *ngIf="record.Series != ''">
+                        <h6>Series: {{record.Series}}</h6>
+                    </div>
+                    <h6>Year: {{record.Year}}</h6>
+                    <h6>Genre: {{record.Genre}}</h6>
+                    <h6>Actor(s): {{record.Actors}}</h6>
+                    <div class="row">
+                        <div *ngIf="record.IsDisc" class="col s6">
+                            <i mz-icon [align]="'center'" [icon]="'adjust'" [size]="'small'"></i>
+                        </div>
+                        <div *ngIf="record.IsDigital" class="col s6">
+                            <i mz-icon [align]="'center'" [icon]="'computer'" [size]="'small'"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div *ngIf="record.IsFavorite">
+                            <i mz-icon [align]="'center'" [icon]="'favorite_border'" [size]="'small'"></i>
+                        </div>
+                    </div>
+                </mz-card-content>
+            </mz-card>
+        </div> 
+    </div>
+</div>
