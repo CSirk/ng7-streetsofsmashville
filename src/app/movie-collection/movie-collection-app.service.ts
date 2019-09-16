@@ -19,5 +19,20 @@ export class MovieCollectionAppService {
    public getMoviesByPartialTitle(partialTitle: string) : Promise<MovieRecord[]> {
     let url = this.baseUrl + 'getbypartialtitle?partialTitle=' + partialTitle;
     return this.http.get<MovieRecord[]>(url).toPromise();
+   };
+
+   public getMoviesByGenre(genre: string) : Promise<MovieRecord[]> {
+    let url = this.baseUrl + 'getByGenre';
+    return this.http.get<MovieRecord[]>(url).toPromise();
+   };
+
+   public getMovieGenres() : Promise<string[]> {
+    let url = this.baseUrl + 'getgenres';
+    return this.http.get<string[]>(url).toPromise();
+   };
+
+   public searchMovieCollection(searchType: string, searchTerm: string) : Promise<MovieRecord[]> {
+     let url = this.baseUrl + 'searchMovieCollection?searchType=' + searchType + '&searchTerm=' + searchTerm;
+     return this.http.get<MovieRecord[]>(url).toPromise();
    }
 }

@@ -4,7 +4,7 @@
         <div class="row">
             <div class="input-field col s2 offset-s2 m2 offset-m5 l2 offset-l5" (click)="preventDefAndProp($event)">
                 <mz-select-container>
-                    <select mz-select id="user-record-options-select">
+                    <select mz-select id="user-record-options-select"  (change)="changeSearchType($event)">
                         <option *ngFor="let type of searchTypes">{{type}}</option>
                     </select>
                 </mz-select-container>
@@ -12,12 +12,15 @@
         </div>
         <div class="row">
             <div class="input-field col s12 m6 offset-m6 l6 offset-l3">
-                <input mz-input id="collectionSearchTerm" class="valign center" placeholder="Search Term" [(ngModel)]="collectionSearchTerm">
+                <input mz-input id="collectionSearchTerm" class="valign center" placeholder="Search Term" [(ngModel)]="searchTerm">
             </div>
         </div>
         <div class="row">
-            <button mz-button class="btn" (click)="getMoviesByPartialTitle()">Search</button>
+            <button mz-button class="btn" (click)="searchMovieCollection()">Search</button>
         </div>
+        <div *ngIf="showThrobber" class="row">
+            <spinner></spinner>
+          </div>
         <div *ngFor="let record of movieRecords" class="col s12 m6 l4">
             <mz-card>
                 <mz-card-title>

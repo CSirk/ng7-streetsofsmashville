@@ -8,7 +8,8 @@ import { MzButtonModule, MzSelectModule, MzInputModule, MzTabModule, MzCardModul
 import { FitnessRoutingModule } from './fitness-routing.module';
 import { NutritionTrackerAppComponent } from './apps/nutrition-tracker-app/nutrition-tracker-app.component';
 import { DownloadsComponent} from './downloads/downloads.component';
-import { SpinnerComponent } from '../common/spinner/spinner.component';
+import { SpinnerModule } from '../common/spinner/spinner.module';
+//import { SpinnerComponent } from '../common/spinner/spinner.component';
 
 import { NutritionTrackerAppService } from './apps/nutrition-tracker-app/nutrition-tracker-app.service';
 
@@ -16,7 +17,8 @@ import { NutritionTrackerAppService } from './apps/nutrition-tracker-app/nutriti
   declarations: [
       NutritionTrackerAppComponent,
       DownloadsComponent,
-      SpinnerComponent
+      //SpinnerModule
+      //SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -31,6 +33,7 @@ import { NutritionTrackerAppService } from './apps/nutrition-tracker-app/nutriti
     MzIconModule,
     MzTooltipModule,
     FormsModule,
+    SpinnerModule
   ],
   providers: [ NutritionTrackerAppService],
 })

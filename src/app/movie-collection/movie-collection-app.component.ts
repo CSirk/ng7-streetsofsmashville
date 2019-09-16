@@ -6,43 +6,38 @@ import { MovieCollectionAppService } from './movie-collection-app.service';
   templateUrl: './movie-collection-app.component.html'
 })
 export class MovieCollectionAppComponent {
-  public appName = "Nutrition Tracker App"
-  public currentUser: string;
   public showThrobber: boolean;
-  public userLoaded: boolean;
-  public collectionSearchTerm: string;
+  public searchTerm: string;
+
+  public searchType = "Title";
 
   public movieRecords: MovieRecord[];
 
   public searchTypes: string[] = new Array();
 
   constructor(public MovieCollectionAppService: MovieCollectionAppService) {
-      this.searchTypes = ['Title', 'Actor', 'Year']
+      this.searchTypes = ['Title', 'Series', 'Actors', 'Year', 'Genre']
   }
 
-  ngOnInit(): void {
-      this.getMovieCollection();
-  }
+  //ngOnInit(): void { }
 
   public preventDefAndProp(event: Event) : void {
     event.stopPropagation();
     event.preventDefault();
   }
 
-  public getMovieCollection() {
-    this.MovieCollectionAppService.getMovieCollection().then((data) => {
-        this.movieRecords = data;
+  public changeSearchType(event: any) {
+    let pos = this.searchTypes.map(function(e) { return e; }).indexOf(event.target.value);
+    let record = this.searchTypes[pos];
+
+    this.searchType = record;
+  }
+
+  public searchMovieCollection() {
+    this.showThrobber = true;
+    this.MovieCollectionAppService.searchMovieCollection(this.searchType, this.searchTerm).then((data) => {
+      this.movieRecords = data;
+      this.showThrobber = false;
     })
   }
-
-  public getMoviesByPartialTitle() {
-    this.MovieCollectionAppService.getMoviesByPartialTitle(this.collectionSearchTerm).then((data) => {
-        this.movieRecords = data;
-    })
-  }
-
-  public retrieveMovieRecords() {
-
-  }
-
 }

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { MzButtonModule, MzSelectModule, MzInputModule, MzTabModule, MzCardModule, MzProgressModule, MzIconModule, MzIconMdiModule, MzTooltipModule } from 'ngx-materialize';
 
-
+import { SpinnerModule } from '../common/spinner/spinner.module';
 import { MovieCollectionRoutingModule } from './movie-collection-routing.module';
 import { MovieCollectionAppComponent } from './movie-collection-app.component';
 //import { SpinnerComponent } from '../common/spinner/spinner.component';
@@ -29,6 +29,7 @@ import { MovieCollectionAppService } from './movie-collection-app.service';
     MzIconModule,
     MzTooltipModule,
     FormsModule,
+    SpinnerModule
   ],
   providers: [ MovieCollectionAppService],
 })
