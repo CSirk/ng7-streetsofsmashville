@@ -9,6 +9,10 @@ export class MovieCollectionAppComponent {
   public showThrobber: boolean;
   public searchTerm: string;
 
+  public userId = "";
+  public showError = false;
+  public errorCode = "";
+
   public searchType = "Title";
 
   public movieRecords: MovieRecord[];
@@ -34,9 +38,16 @@ export class MovieCollectionAppComponent {
   }
 
   public searchMovieCollection() {
+    this.showError = false;
     this.showThrobber = true;
-    this.MovieCollectionAppService.searchMovieCollection(this.searchType, this.searchTerm).then((data) => {
+    this.MovieCollectionAppService.searchMovieCollection(this.searchType, this.searchTerm, this.userId).then((data) => {
       this.movieRecords = data;
+      this.showThrobber = false;
+    }).catch((error) => {
+      console.log(error)
+      this.showError = true;
+      this.errorCode = error.status;
+      this.movieRecords = new Array();
       this.showThrobber = false;
     })
   }

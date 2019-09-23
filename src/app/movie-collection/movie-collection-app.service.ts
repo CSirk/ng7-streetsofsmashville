@@ -31,8 +31,8 @@ export class MovieCollectionAppService {
     return this.http.get<string[]>(url).toPromise();
    };
 
-   public searchMovieCollection(searchType: string, searchTerm: string) : Promise<MovieRecord[]> {
-     let url = this.baseUrl + 'searchMovieCollection?searchType=' + searchType + '&searchTerm=' + searchTerm;
+   public searchMovieCollection(searchType: string, searchTerm: string, userId: string) : Promise<MovieRecord[]> {
+     let url = this.baseUrl + 'searchMovieCollection?searchType=' + searchType + '&searchTerm=' + searchTerm + '&userId=' + userId;
      return this.http.get<MovieRecord[]>(url).toPromise();
    }
 }
