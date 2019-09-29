@@ -22,7 +22,10 @@ export class NutritionTrackerAppComponent {
   constructor(public NutritionTrackerAppService: NutritionTrackerAppService) {}
 
   public userSavedRecordSelectChange (event: any) {
-    let pos = this.userSavedRecords.map(function(e) { return e.RecordName; }).indexOf(event.target.value);
+    let pos = this.userSavedRecords.map(function(e) { console.log(e); return e.RecordName; }).indexOf(event.target.value);
+    console.log(event)
+    console.log(pos)
+    console.log(this.userSavedRecords[pos])
     let record = this.userSavedRecords[pos];
 
     this.currentRecord = record;

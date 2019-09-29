@@ -1,0 +1,101 @@
+<div class="row">
+    <div class="col s12 m10 offset-m1 l10 offset-l1">
+        <mz-collapsible [mode]="'accordion'" [popout]="true">
+            <mz-collapsible-item [active]="true">
+                <mz-collapsible-item-header>New Machine Setup With Existing Github Account</mz-collapsible-item-header>
+                <mz-collapsible-item-body>
+                    <ol>
+                        <li><b>git config --global user.name "Your Name"</b></li>
+                        <li><b>git config --global user.email "Your Email"</b></li>
+                        <li><b>ssh-keygen -t rsa -b 4096 -C "Your Email"</b></li>
+                        <li>Hit enter for default location</li>
+                        <li>Enter password</li>
+                        <li>Confim password</li>
+                        <li><b>eval $(ssh-agent -s)</b></li>
+                        <li><b>ssh-add ~/.ssh/id_rsa</b></li>
+                        <li>Enter Password</li>
+                        <li>Enter ssh key into github keys area</li>
+                        <li>Get the public key you need by entering : <b>clip &lt; ~.ssh/id_rsa.pub</b> in git bash</li>
+                        <li>if this doesnt work then specify full path that ssh/id_rsa.pub lives in
+                            for example: /c/user/username/.ssh/id_rsa.pub</li>
+                        <li>Go to github settings page and add new key, name it whatever and paste clipboard in and save</li>
+                    </ol>
+                </mz-collapsible-item-body>
+            </mz-collapsible-item>
+
+            <mz-collapsible-item>
+                <mz-collapsible-item-header>Creating a Repository in GitHub</mz-collapsible-item-header>
+                <mz-collapsible-item-body>
+                    <ol>
+                        <li>Logged into your GitHub account click on the '+' symbol at the top right of the page.</li>
+                        <li>Select 'Create New Repository'</li>
+                        <li>Name your repository</li>
+                        <li>Optionally give your repository a description</li>
+                        <li>Unless you have a paid account, you will only be able to make your repo 'Public'. Do NOT initialize repository with a README or .gitignore if you are going to put local code into the repository (adding a readme or gitignore can cause issues upon inital push to the new repo from local)</li>
+                        <li>Push "create repo" button</li>
+                    </ol>
+                </mz-collapsible-item-body>
+            </mz-collapsible-item>
+
+            <mz-collapsible-item>
+                <mz-collapsible-item-header>Pushing Local Code to a New GitHub Repository</mz-collapsible-item-header>
+                <mz-collapsible-item-body>
+                    <ol>
+                        <li>Go to directory where code lives</li>
+                        <li><b>git init</b></li>
+                        <li><b>git add .</b></li>
+                        <li><b>git commit -m "initial commit"</b></li>
+                        <li><b>git remote add origin https://github.com/UserName/RepoName.git</b></li>
+                        <li><b>git remote -v</b> (this verifies you are pointed to the remote)</li>
+                        <li><b>git push origin master</b></li>
+                        <li><i>**Note** if you get errors on pushing the code to the git repo you may have the wrong url.. use the command <b>git remote set-url origin http://github.com/UserName/RepoName.git</b> to reset origin location</i></li>
+                    </ol>
+                </mz-collapsible-item-body>
+            </mz-collapsible-item>
+
+            <mz-collapsible-item>
+                <mz-collapsible-item-header>Git Processes</mz-collapsible-item-header>
+                <mz-collapsible-item-body>
+                    <ul>
+                        <h4>In general you will follow the same processes each time you have work to do in a repo. A typical workflow is detailed below.</h4>
+                        <li>In Git Bash change directories until your branch is listed as master</li>
+                        <li>From your master branch pull down latest code: <b>git pull origin master</b></li>
+                        <li>Branch off of master so that your work is in a managable unit which can easily be accepted or rejected without messing up your local master branch: <b>git checkout -b YourName-NameOfBranch</b> .. The name of the branch can be anything you like, but a good convention is to put the name of the developer (you)-branchName</li>
+                        <li>Open the  code file(s) in your prefered IDE or editing software. Develop as you normally would.</li>
+                        <li>At the end of each work period or when you have made some good progress towards your goal and have working code you should push it up to remote origin using the following commands: <b>git add .</b> OR <b>git add fileName</b> (to add individual files) <b>git commit -m "a commit message (whatever you want)"</b> and finally: <b>git push origin NameOfYourBranch</b> these commands will save your branch changes on the remote origin (GitHub) so in the event your machine encounters issues, or another developer needs to continue your work, your progress is saved and available to everyone working on the project with you.</li>
+                        <li>Occasionally it is a good idea to pull latest code using <b>git pull origin master</b> . This will keep your branch up to date with changes and help you avoid merge conflicts which may occur if your branch becomes "stale" from changes being made without you taking them in.</li>
+                        <li>If at anytime you are curious what files you have modified or wish to ensure you have added all the changed files you can use <b>git status</b></li>
+                        <li>Once you have a completed branch of changes you would like to submit back for merge review, open Git Bash and navigate to your file directory where your code lives (git bash should show you as working out of your branch you made in earlier steps)</li>
+                        <li>Add your files using either <b>git add .</b> or <b>git add fileName</b>. Git add . will add all files that have been edited into staging for commit. Git add fileName allows you to individually add files into the staging (in the event you dont want all of your changes to be staged</li>
+                        <li>Now you must commit your local changes using <b>git commit -m "type a message that describes what you did"</b></li>
+                        <li>Push your locally commited changes to remote (GitHub) <b>git push origin nameOfYourBranch</b></li>
+                        <li>At this point your local work is done! Now you need to go to GitHub and create a pull request (or merge request as some people know it) you will do this inside the GitHub ui.</li>
+                        <li>Once your pull request / merge request is accepted everyone that pulls master branch down will get your changes.</li>
+                        <li>Pull in your own changes to local master: go to Git Bash to the directory where your code lives and perform <b>git checkout master</b> . This will get you back to your master branch you use to branch off of to do work.</li>
+                        <li>Pull in the latest changes to the code using <b>git pull origin master</b></li>
+                        <li>Delete your old local branch using <b>git branch -d nameOfYourBranch</b></li>
+                        <li>Congratulations! You have now finished your unit of work in a Git repository!</li>
+                    </ul>
+                </mz-collapsible-item-body>
+            </mz-collapsible-item>
+
+            <mz-collapsible-item>
+                <mz-collapsible-item-header>Handling Merge Conflicts</mz-collapsible-item-header>
+                    <mz-collapsible-item-body>
+                        <h4>Its going to happen. You will pull latest from origin and you will be told you have merge conflicts. Here's how to deal with it.</h4>
+                        <ol>
+                            <li>Look in the output where a merge conflict has occurred and find the file(s) which are conflicted.</li>
+                            <li>Go into each file in your prefered editor and look for &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD . This is the start of the merge conflict.<i></i></li>
+                            <li>The code between &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD and ======= is your personal code which is in your current branch.</li>
+                            <li>The code between ======= and &gt;&gt;&gt;&gt;&gt;&gt;&gt; random423454characters  is the current version of the code in master.</li>
+                            <li>You should look at your local code (which is often the correct change due to your new feature branch having the most up to date code for your changes) and compare it to the code in master.</li>
+                            <li>Once you have determined which version of code is correct (or determined a hybrid block of code to use) you can simply delete the changes you dont want and save the file.</li>
+                            <li>Once you have done this process for each conflicted file you will need to do the following: <b>git add .</b> OR <b>git add fileNameOfConflictedFileYouChanged</b> then <b>git commit -m "message you wish to use"</b> then <b>git push origin YourBranchName</b></li>
+                            <li>You may wish to pull master again to be sure you have all the up to date code using <b>git pull origin master</b></li>
+                            <li>Boom. Conflit resolved.</li>
+                        </ol>
+                    </mz-collapsible-item-body>
+            </mz-collapsible-item>
+        </mz-collapsible>
+    </div>
+</div>

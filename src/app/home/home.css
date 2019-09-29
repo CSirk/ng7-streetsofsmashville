@@ -1,0 +1,7 @@
+div {
+    background-color: white;
+    height: calc(100vh - 64px);
+    background-image: url('../../assets/img/preds.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+}

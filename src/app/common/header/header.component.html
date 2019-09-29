@@ -1,6 +1,6 @@
 <mz-navbar>
     <a routerLink="/home" class="brand-logo left">Streets of Smashville</a>
-    <mz-navbar-item-container [align]="'right'">
+    <mz-navbar-item-container [align]="'right hide-on-small-only'">
         <mz-navbar-item><a id="fitsidenavlink">Fitness</a></mz-navbar-item>
         <mz-navbar-item><a id="codesidenavlink">Code</a></mz-navbar-item>
         <!-- <mz-navbar-item><a routerLink="js">JavaScript</a></mz-navbar-item>
@@ -11,12 +11,17 @@
         </a>
         </mz-navbar-item> -->
     </mz-navbar-item-container>
-    <mz-navbar-item-container [align]="'right'">
-    <mz-navbar-item><a class="dropdown-button">Test</a></mz-navbar-item>
+    
+    <mz-navbar-item-container [align]="'right hide-on-small-only'">
+        <mz-navbar-item><a routerLink="/movie-collection/movie-collection-app" class="dropdown-button">MC (Auth)</a></mz-navbar-item>
+    </mz-navbar-item-container>
+
+    <mz-navbar-item-container [align]="'right hide-on-med-and-up'">
+        <mz-navbar-item><a id="mobilesidenavlink"><i mz-icon [align]="'right'" [icon]="'apps'" [size]="'large'"></i></a></mz-navbar-item>
     </mz-navbar-item-container>
 </mz-navbar>
 
-<mz-sidenav [id]="'fitsidenav'" [collapseButtonId]="'fitsidenavlink'" [edge]="'right'">
+<mz-sidenav [id]="'fitsidenav'" [collapseButtonId]="'fitsidenavlink'" [edge]="'right'" [closeOnClick]='true'>
     <mz-sidenav-header><h4>Fitness</h4></mz-sidenav-header>
     <mz-sidenav-divider></mz-sidenav-divider>
     <mz-sidenav-link><a href="#">About</a></mz-sidenav-link>
@@ -32,11 +37,41 @@
     <mz-sidenav-link><a href="#" class="waves-effect">Second Link With Waves</a></mz-sidenav-link>
 </mz-sidenav>
 
-<mz-sidenav [id]="'codesidenav'" [collapseButtonId]="'codesidenavlink'" [edge]="'right'">
-  <mz-sidenav-header>Code</mz-sidenav-header>
-  <mz-sidenav-link><a href="#">First Link</a></mz-sidenav-link>
-  <mz-sidenav-divider></mz-sidenav-divider>
-  <mz-sidenav-link [active]="true"><a href="#">Active Link</a></mz-sidenav-link>
-  <mz-sidenav-divider></mz-sidenav-divider>
-  <mz-sidenav-link><a href="#" class="waves-effect">Second Link With Waves</a></mz-sidenav-link>
+<mz-sidenav [id]="'codesidenav'" [collapseButtonId]="'codesidenavlink'" [edge]="'right'" [closeOnClick]='true'>
+        <mz-sidenav-header><h4>Code</h4></mz-sidenav-header>
+        <mz-sidenav-link><a routerLink="/code/downloads">Downloads</a></mz-sidenav-link>
+        <mz-sidenav-divider></mz-sidenav-divider>
+        <mz-sidenav-link><a routerLink="/code/tutorials">Tutorials</a></mz-sidenav-link>
+        <mz-sidenav-divider></mz-sidenav-divider>
+        <mz-sidenav-link><a href="#" class="waves-effect">Second Link With Waves</a></mz-sidenav-link>
+</mz-sidenav>
+
+<mz-sidenav [id]="'mobilesidenav'" [collapseButtonId]="'mobilesidenavlink'" [edge]="'right'" [closeOnClick]='true'>
+    <!--Fitness Section-->
+    <mz-sidenav-header><h4>Fitness</h4></mz-sidenav-header>
+    <mz-sidenav-divider></mz-sidenav-divider>
+    <mz-sidenav-link><a href="#">About</a></mz-sidenav-link>
+    <mz-sidenav-link><a routerLink="/fitness/downloads">Downloads</a></mz-sidenav-link>
+    <mz-sidenav-link><a href="#">Guides</a></mz-sidenav-link>
+    <mz-sidenav-collapsible>
+        <mz-sidenav-collapsible-header> <i mz-icon [align]="'right'" [icon]="'expand_more'" [size]="'medium'"></i>Apps</mz-sidenav-collapsible-header>
+        <mz-sidenav-collapsible-content>
+            <mz-sidenav-link><a routerLink="/fitness/apps/nutrition-tracker-app" class="waves-effect">Nutrition Tracker</a></mz-sidenav-link>
+        </mz-sidenav-collapsible-content>
+    </mz-sidenav-collapsible>
+    <mz-sidenav-link><a href="#">Nutrition</a></mz-sidenav-link>
+    <mz-sidenav-link><a href="#" class="waves-effect">Second Link With Waves</a></mz-sidenav-link>
+
+    <!--Code Section-->
+    <mz-sidenav-header><h4>Code</h4></mz-sidenav-header>
+    <mz-sidenav-link><a routerLink="/code/downloads">Downloads</a></mz-sidenav-link>
+    <mz-sidenav-divider></mz-sidenav-divider>
+    <mz-sidenav-link><a routerLink="/code/tutorials">Tutorials</a></mz-sidenav-link>
+    <mz-sidenav-divider></mz-sidenav-divider>
+    <mz-sidenav-link><a href="#" class="waves-effect">Second Link With Waves</a></mz-sidenav-link>
+
+    <!--Move Section-->
+    <mz-sidenav-header><h4>Movies</h4></mz-sidenav-header>
+    <mz-sidenav-link><a routerLink="/movie-collection/movie-collection-app">Movie Collection (Auth)</a></mz-sidenav-link>
+
 </mz-sidenav>

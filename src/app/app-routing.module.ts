@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   //{ path: 'fitness', loadChildren: () => import('./fitness/fitness.module').then(mod => mod.FitnessModule), data: {preLoad: true}},
   { path: 'fitness', loadChildren: "./fitness/fitness.module#FitnessModule" },
+  { path: 'code', loadChildren: "./code/code.module#CodeModule" },
   { path: 'movie-collection', loadChildren: "./movie-collection/movie-collection.module#MovieCollectionModule"},
   { path: '', redirectTo: '/home', pathMatch:'full'}, //if no path is given
   { path: '**', component: NotFoundComponent}

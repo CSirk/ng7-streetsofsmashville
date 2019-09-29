@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { MzButtonModule } from 'ngx-materialize';
 import { MzSelectModule } from 'ngx-materialize';
+import { MzParallaxModule } from 'ngx-materialize';
 //import { FitnessModule } from './fitness/fitness.module';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -29,6 +30,7 @@ import { MzIconModule, MzIconMdiModule } from 'ngx-materialize';
     MzButtonModule,
     MzSelectModule,
     HttpClientModule,
+    MzParallaxModule,
     //FitnessModule,
     MzNavbarModule,
     MzSidenavModule,
