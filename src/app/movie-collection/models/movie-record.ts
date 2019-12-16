@@ -6,6 +6,7 @@ export class MovieRecord {
     Actors: string;
     IsDisc: boolean;
     IsDigital: boolean;
+    IsOnWishlist: boolean;
     IsFavorite: boolean;
     LogoUrl: string;
 }

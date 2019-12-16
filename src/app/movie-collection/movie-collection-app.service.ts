@@ -7,17 +7,17 @@ export class MovieCollectionAppService {
    constructor(private http: HttpClient) {}
 
    results: string[];
-   baseUrl: string = 'https://streetsofsmashvilleapi.azurewebsites.net/api/moviecollection/';
-   //baseUrl: string = 'https://localhost:5001/api/moviecollection/';
+   baseUrl: string = 'https://streetsofsmashvilleapi.azurewebsites.net/api/moviecollectionapp/';
+   //baseUrl: string = 'https://localhost:5001/api/moviecollectionapp/';
 
    public getMovieCollection() : Promise<MovieRecord[]> {
-     let url = this.baseUrl + 'getall';
+     let url = this.baseUrl + 'getmoviecollection';
      console.log(url)
      return this.http.get<MovieRecord[]>(url).toPromise();
    };
 
    public searchMovieCollection(searchType: string, searchTerm: string, userId: string) : Promise<MovieRecord[]> {
-     let url = this.baseUrl + 'searchMovieCollection?searchType=' + searchType + '&searchTerm=' + searchTerm + '&userId=' + userId;
+     let url = this.baseUrl + 'searchmoviecollection?searchType=' + searchType + '&searchTerm=' + searchTerm + '&userId=' + userId;
      return this.http.get<MovieRecord[]>(url).toPromise();
    }
 }
