@@ -15,105 +15,131 @@
   <spinner></spinner>
 </div>
 <div class="row">
-  <div *ngIf="userLoaded" class="col s12" id="tabarea">
-    <mz-tab [fixedTabWidth]="'true'">
-        <!--View Progress Tab-->
-        <mz-tab-item [label]="'View Progress'">
-            <div *ngFor="let record of nutrientProgressRecords" class="col s12 m6 l4">
-                <mz-card>
-                    <mz-card-title>{{record.NutrientName}} </mz-card-title>
-                    <mz-card-content>
-                        <mz-progress *ngIf="record.GoalIsHigh" [backgroundClass]="'grey lighten-4'" [percentage]="record.ProgressAmount == 0 ? 0 : (record.ProgressAmount / record.GoalAmount) * 100" [progressClass]="'green'"></mz-progress>
-                        <mz-progress *ngIf="!record.GoalIsHigh" [backgroundClass]="'grey lighten-4'" [percentage]="record.ProgressAmount == 0 ? 0 : (record.ProgressAmount / record.GoalAmount) * 100" [progressClass]="'red'"></mz-progress>
-                        <h3>Remaining : {{record.RemainingAmount}} {{record.MeasurementAbbreviation}}</h3>
-                        <h4>Progress : {{record.ProgressAmount}} {{record.MeasurementAbbreviation}}</h4>
-                        <h4>Goal : {{record.GoalAmount}} {{record.Measurement}}</h4>
-                    </mz-card-content>
-                </mz-card>
+  <div *ngIf="userLoaded" class="col s12">
+    <div *ngFor="let record of nutrientProgressRecords" class="col s12 m4 l3">
+        <mz-card>
+            <mz-card-title>{{record.NutrientName}} </mz-card-title>
+            <mz-card-content>
+                <mz-progress *ngIf="record.GoalIsHigh" [backgroundClass]="'grey lighten-4'" [percentage]="record.ProgressAmount == 0 ? 0 : (record.ProgressAmount / record.GoalAmount) * 100" [progressClass]="'green'"></mz-progress>
+                <mz-progress *ngIf="!record.GoalIsHigh" [backgroundClass]="'grey lighten-4'" [percentage]="record.ProgressAmount == 0 ? 0 : (record.ProgressAmount / record.GoalAmount) * 100" [progressClass]="'red'"></mz-progress>
+                <h4>Remaining : {{record.RemainingAmount}} {{record.MeasurementAbbreviation}}</h4>
+                <h5>Progress : {{record.ProgressAmount}} {{record.MeasurementAbbreviation}}</h5>
+                <h5>Goal : {{record.GoalAmount}} {{record.Measurement}}</h5>
+            </mz-card-content>
+        </mz-card>
+    </div>
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large blue">
+            <i mz-icon [align]="'center'" [icon]="'apps'" [size]="'small'"></i>
+        </a>
+        <ul>
+          <li><a class="btn-floating blue" (click)="nutritionAppModal.openModal()"><i mz-icon [align]="'center'" [icon]="'account_circle'" [size]="'small'" (click)="onOpenModalProfileView()"></i></a></li>
+          <li><a class="btn-floating blue" (click)="nutritionAppModal.openModal()"><i mz-icon [align]="'center'" [icon]="'restaurant'" [size]="'small'" (click)="onOpenModalNutritionView()"></i></a></li>
+          <li><a class="btn-floating blue" (click)="nutritionAppModal.openModal()"><i mz-icon [align]="'center'" [icon]="'emoji_events'" [size]="'small'" (click)="onOpenModalGoalsView()"></i></a></li>
+        </ul>
+      </div>
+  </div>
+</div>
+
+<mz-modal [fixedFooter]="true" [fullscreen]="true" #nutritionAppModal>
+    <!--Profile Modal View-->
+    <mz-modal-header *ngIf="showProfileModalView">
+        <h4>Profile</h4>
+    </mz-modal-header>
+    <mz-modal-content *ngIf="showProfileModalView">
+        <h2>Content for Profile</h2>
+    </mz-modal-content>
+    <mz-modal-footer *ngIf="showProfileModalView">  
+        <button mz-button [flat]="true" mz-modal-close>Save Profile</button>
+        <button mz-button [flat]="true" mz-modal-close>Delete</button>
+        <button mz-button [flat]="true" mz-modal-close>Cancel</button>
+    </mz-modal-footer>
+
+    <!--Nutrition Modal View-->
+    <mz-modal-header *ngIf="showNutritionModalView">
+    </mz-modal-header>
+    <mz-modal-content *ngIf="showNutritionModalView">
+        <!--Add Nutrition Record Area-->
+        <div class="col s12 valign center">
+            <h4><u>Nutrition Record Management</u></h4>
+        </div>
+        <div class="row">
+            <!--User Progress Records Dropdown-->
+            <div class="input-field col s12 m4 l4" (click)="preventDefAndProp($event)">
+                <mz-select-container>
+                    <select mz-select [label]="'User Progress Records'" [placeholder]="'User Progress Records'" id="user-record-options-select" (change)="userProgressRecordSelectChange($event)">
+                        <option *ngFor="let progressRecord of userProgressRecords">{{progressRecord.RecordName}}</option>
+                    </select>
+                </mz-select-container>
             </div>
-        </mz-tab-item>
-        <!--Add Record Tab-->
-        <mz-tab-item [active]="'true'" [label]="'Add Record'">
-            
-            <div class="row">
-            <!--User Record Dropdown-->
-                <div class="input-field col s12 m6 l6" (click)="preventDefAndProp($event)">
-                    <mz-select-container>
+
+            <!--User Saved Records Dropdown-->
+            <div class="input-field col s12 m4 l4" (click)="preventDefAndProp($event)">
+                <mz-select-container>
                     <select mz-select [label]="'User Saved Records'" [placeholder]="'User Saved Records'" id="user-record-options-select" (change)="userSavedRecordSelectChange($event)">
                         <option *ngFor="let userRecord of userSavedRecords">{{userRecord.RecordName}}</option>
                     </select>
-                    </mz-select-container>
-                </div>
+                </mz-select-container>
+            </div>
 
-                <!--Global Record Dropdown-->
-                <div class="input-field col s12 m6 l6" (click)="preventDefAndProp($event)">
-                    <mz-select-container>
+            <!--Global Records Dropdown-->
+            <div class="input-field col s12 m4 l4" (click)="preventDefAndProp($event)">
+                <mz-select-container>
                     <select mz-select [label]="'Global Saved Records'" [placeholder]="'Global Saved Records'" id="global-record-options-select" >
                         <option *ngFor="let globalRecord of globalSavedRecords">{{globalRecord.RecordName}}</option>
                     </select>
-                    </mz-select-container>
+                </mz-select-container>
+            </div>
+        </div>
+        <div class="col s12">
+            <div class="row">
+                <!--Record Name Textbox-->
+                <div class="input-field valign center">
+                    <mz-input-container>
+                        <input mz-input [label]="'Record Name'" [(ngModel)]="currentRecord.RecordName" class="valign center">
+                    </mz-input-container>
                 </div>
-            </div>
-            <!--Add Nutrition Record Area-->
-            <div class="col s12 m12 l12 valign center">
-                <h4><u>Add Nutrition Record</u></h4>
-            </div>
-            <div class="col s12 m12 l12">
-                <div class="row">
-                    <!--Record Name Textbox-->
-                    <div class="input-field valign center">
+                <!--Nutrient Textboxes-->
+                <div *ngFor="let nutrient of currentRecord.Nutrients">
+                    <div class="input-field col s3 m3 l3 valign center">
                         <mz-input-container>
-                            <input mz-input [label]="'Record Name'" [(ngModel)]="currentRecord.RecordName" class="valign center">
+                            <input *ngIf="nutrient.Alias" mz-input [label]="nutrient.DisplayName + ' (' + nutrient.MeasurementAbbreviation + ')'" mz-tooltip [tooltip]="nutrient.Alias" [position]="'top'" [(ngModel)]="nutrient.Amount" class="valign center"  (keydown)="keyDownCaptureEvent($event, nutrient)" (input)="inputActionEvent($event, nutrient)">
+                            <input *ngIf="!nutrient.Alias" mz-input [label]="nutrient.DisplayName + ' (' + nutrient.MeasurementAbbreviation + ')'" [(ngModel)]="nutrient.Amount" class="valign center"  (keydown)="keyDownCaptureEvent($event, nutrient)" (input)="inputActionEvent($event, nutrient)">
                         </mz-input-container>
                     </div>
-                    <!--Nutrient Textboxes-->
-                    <div *ngFor="let nutrient of currentRecord.Nutrients">
-                        <div class="input-field col s3 m3 l3 valign center">
-                            <mz-input-container>
-                                <input *ngIf="nutrient.Alias" mz-input [label]="nutrient.DisplayName + ' (' + nutrient.MeasurementAbbreviation + ')'" mz-tooltip [tooltip]="nutrient.Alias" [position]="'top'" [(ngModel)]="nutrient.Amount" class="valign center"  (keydown)="keyDownCaptureEvent($event, nutrient)" (input)="inputActionEvent($event, nutrient)">
-                                <input *ngIf="!nutrient.Alias" mz-input [label]="nutrient.DisplayName + ' (' + nutrient.MeasurementAbbreviation + ')'" [(ngModel)]="nutrient.Amount" class="valign center"  (keydown)="keyDownCaptureEvent($event, nutrient)" (input)="inputActionEvent($event, nutrient)">
-                            </mz-input-container>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <!--Add single daily user record-->
-                    <div class="col s6 m6 l6">
-                        <button class="btn" (click)="addNutritionRecord(false)">Add Daily One Time Record</button>
-                    </div>
-                    <!--Add saved user record-->
-                    <div class="col s6 m6 l6">
-                        <button class="btn" (click)="addNutritionRecord(true)">Save As User Record</button>
-                    </div>
                 </div>
             </div>
-        </mz-tab-item>
-        <!--Edit Record Tab-->
-        <mz-tab-item [label]="'Edit Records'">
+        </div>
+    </mz-modal-content>
+    <mz-modal-footer *ngIf="showNutritionModalView">
+        <button *ngIf="editingUserSavedRecord || editingProgressRecord" mz-button [flat]="true" mz-modal-close (click)="updateNutritionRecord()">Update Record</button>
+        <button *ngIf="editingUserSavedRecord || editingProgressRecord" mz-button [flat]="true" mz-modal-close (click)="deleteNutritionRecord()">Delete Record</button>
+        <button mz-button [flat]="true" mz-modal-close (click)="addNutritionRecord(false)">Save As Progress Record</button>
+        <button mz-button [flat]="true" mz-modal-close (click)="addNutritionRecord(true)">Save As User Saved Record</button>
+        <button mz-button [flat]="true" mz-modal-close>Cancel</button>
+    </mz-modal-footer>
+
+    <!--Goals Modal View-->
+    <mz-modal-header *ngIf="showGoalsModalView">
+        <h4>Goals</h4>
+    </mz-modal-header>
+    <mz-modal-content *ngIf="showGoalsModalView">
+        <h2>Content for Goals</h2>
+        <div class="col s12">
             <div class="row">
-                <h3>Daily Records</h3>
-                <div *ngFor="let record of userDailyRecords" class="col s6 m4 l4">
-                    <mz-card>
-                        <mz-card-title>
-                            <i mz-icon [align]="'right'" [icon]="'delete'" [size]="'small'" (click)="deleteNutritionRecord(record)"></i>
-                            {{record.RecordName}} 
-                        </mz-card-title>
-                    </mz-card>
+                <div *ngFor="let nutrient of userNutritionGoal.Nutrients">
+                    <div class="input-field col s3 m3 l3 valign center">
+                        <mz-input-container>
+                            <input *ngIf="nutrient.Alias" mz-input [label]="nutrient.DisplayName + ' (' + nutrient.MeasurementAbbreviation + ')'" mz-tooltip [tooltip]="nutrient.Alias" [position]="'top'" [(ngModel)]="nutrient.Amount" class="valign center">
+                            <input *ngIf="!nutrient.Alias" mz-input [label]="nutrient.DisplayName + ' (' + nutrient.MeasurementAbbreviation + ')'" [(ngModel)]="nutrient.Amount" class="valign center">
+                        </mz-input-container>
+                    </div>
                 </div>
             </div>
-            <div class="row">
-                <h3>Saved User Records</h3>
-                <div *ngFor="let record of userSavedRecords" class="col s6 m4 l4">
-                    <mz-card>
-                        <mz-card-title>
-                            <i mz-icon [align]="'right'" [icon]="'delete'" [size]="'small'" (click)="deleteNutritionRecord(record)"></i>
-                            {{record.RecordName}} 
-                        </mz-card-title>
-                    </mz-card>
-                </div>
-            </div>
-            
-        </mz-tab-item>
-    </mz-tab>
-  </div>
-</div>
+        </div>
+    </mz-modal-content>
+    <mz-modal-footer *ngIf="showGoalsModalView">  
+        <button mz-button [flat]="true" mz-modal-close (click)="updateUserNutritionGoal()">Update Goal</button>
+        <button mz-button [flat]="true" mz-modal-close>Cancel</button>
+    </mz-modal-footer>
+</mz-modal>

@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, Inject } from '@angular/core';
 import { UserNutritionInfo } from './models/user-nutrition-info';
 import { DomNutritionRecord } from './models/dom-nutrition-record';
+import { DomNutritionGoal } from './models/dom-nutrition-goal';
 
 @Injectable()
 export class NutritionTrackerAppService {
@@ -16,6 +17,11 @@ export class NutritionTrackerAppService {
      return this.http.post<boolean>(url, nutritionRecordToAdd).toPromise();
    };
 
+   public updateNutritionRecord(nutritionRecordToUpdate: DomNutritionRecord) : Promise<boolean> {
+     let url = this.baseUrl + 'UpdateNutritionRecord';
+     return this.http.put<boolean>(url, nutritionRecordToUpdate).toPromise();
+   }
+
    public deleteNutritionRecord(nutritionRecordToDelete: DomNutritionRecord) : Promise<boolean> {
      let url = this.baseUrl + 'DeleteNutritionRecord';
 
@@ -25,6 +31,11 @@ export class NutritionTrackerAppService {
    public getUserNutritionInfo(userId: string) : Promise<UserNutritionInfo> {
      let url = this.baseUrl + 'GetNutritionInfoByUserId?userId=' + userId;
      return this.http.get<UserNutritionInfo>(url).toPromise();
+   }
+
+   public updateUserNutritionGoal(userNutritionGoalToUpdate: DomNutritionGoal) : Promise<boolean> {
+     let url = this.baseUrl + 'NutritionGoal/UpdateUserNutritionGoal';
+     return this.http.put<boolean>(url, userNutritionGoalToUpdate).toPromise();
    }
 
 }

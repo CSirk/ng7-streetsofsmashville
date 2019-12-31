@@ -16,7 +16,7 @@ export class NutritionTrackerAppComponent {
   public showThrobber: boolean;
   public userLoaded: boolean;
 
-  public userDailyRecords: DomNutritionRecord[] = new Array();
+  public userProgressRecords: DomNutritionRecord[] = new Array();
   public userSavedRecords: DomNutritionRecord[] = new Array();
   public globalSavedRecords: DomNutritionRecord[] = new Array();
   public currentRecord: DomNutritionRecord = new DomNutritionRecord();
@@ -25,6 +25,12 @@ export class NutritionTrackerAppComponent {
   public recommendedNutritionGoal: DomNutritionGoal;
   public userProfile: DomUserFitnessProfile;
   public nutrientProgressRecords: NutrientProgressRecord[] = new Array();
+
+  public showGoalsModalView: boolean = false;
+  public showNutritionModalView: boolean = false;
+  public showProfileModalView: boolean = false;
+  public editingUserSavedRecord: boolean = false;
+  public editingProgressRecord: boolean = false;
 
   public baseNutritionRecord: DomNutritionRecord;
 
@@ -40,6 +46,15 @@ export class NutritionTrackerAppComponent {
     let record = this.userSavedRecords[pos];
 
     this.currentRecord = record;
+    this.editingUserSavedRecord = true;
+  }
+
+  public userProgressRecordSelectChange (event: any) {
+    let pos = this.userProgressRecords.map(function(e) { console.log(e); return e.RecordName; }).indexOf(event.target.value);
+    let record = this.userProgressRecords[pos];
+
+    this.currentRecord = record;
+    this.editingProgressRecord = true;
   }
 
   public keyDownCaptureEvent(event: Event, nutrient: DomNutrient) {
@@ -63,29 +78,11 @@ export class NutritionTrackerAppComponent {
 
   public convertPercentToNumber(nutrient: DomNutrient) : void {
     let recGoalNutrients = this.recommendedNutritionGoal.Nutrients;
-      for(let i = 0; i < recGoalNutrients.length; i++) {
-        if(recGoalNutrients[i].Name == nutrient.Name) {
-          nutrient.Amount = (recGoalNutrients[i].Amount * (nutrient.Amount * .01));
-        }
+    for(let i = 0; i < recGoalNutrients.length; i++) {
+      if(recGoalNutrients[i].Name == nutrient.Name) {
+        nutrient.Amount = (recGoalNutrients[i].Amount * (nutrient.Amount * .01));
       }
-    /*let charCode = String.fromCharCode(event.which).toLowerCase();
-    console.log(charCode)
-    if (event.shiftKey && charCode === '5') {
-      console.log('yep')
-      //Stop % from showing in textbox
-      event.preventDefault();
-      
-      let record = new NutrientProgressRecord();
-      let modifiedName = nutrient.Name.replace(' ', '');
-
-      for(let i = 0; i < this.nutrientProgressRecords.length; i++) {
-        if(this.nutrientProgressRecords[i].NutrientName == modifiedName) {
-          record = this.nutrientProgressRecords[i];
-        }
-      }
-      nutrient.Amount = (nutrient.Amount * (record.NutrientGoalAmount * .01));
     }
-    */
   }
   
   public preventDefAndProp(event: Event) : void {
@@ -103,7 +100,7 @@ export class NutritionTrackerAppComponent {
     this.NutritionTrackerAppService.getUserNutritionInfo(this.currentUser).then((data) => {
 
       this.globalSavedRecords = data.RecordCollection.GlobalSavedRecords;
-      this.userDailyRecords = data.RecordCollection.UserDailyRecords;
+      this.userProgressRecords = data.RecordCollection.UserDailyRecords;
       this.userSavedRecords = data.RecordCollection.UserSavedRecords;
       this.userNutritionGoal = data.UserDailyNutritionGoal;
       this.recommendedNutritionGoal = data.RecommendedNutritionGoal;
@@ -127,13 +124,32 @@ export class NutritionTrackerAppComponent {
 
       this.userLoaded = true;
       this.showThrobber = false;
-
-      console.log(this.nutrientProgressRecords)
     });
   };
 
+  public onOpenModalProfileView() {
+    this.showProfileModalView = true;
+    this.showNutritionModalView = false;
+    this.showGoalsModalView = false;
+  }
+
+  public onOpenModalNutritionView() {
+    this.showProfileModalView = false;
+    this.showNutritionModalView = true;
+    this.showGoalsModalView = false;
+
+    this.editingProgressRecord = this.editingUserSavedRecord = false;
+  }
+
+  public onOpenModalGoalsView() {
+    this.showProfileModalView = false;
+    this.showNutritionModalView = false;
+    this.showGoalsModalView = true;
+  }
+
   public addNutritionRecord(saveUserRecord: boolean) : void {
     this.showThrobber = true;
+    this.currentRecord.Id = 0;
     this.currentRecord.UserId = this.currentUser;
     this.currentRecord.RecordType = (saveUserRecord == true) ? "UserSaved" : "UserDaily";
 
@@ -143,9 +159,25 @@ export class NutritionTrackerAppComponent {
     })
   };
 
-  public deleteNutritionRecord(nutritionRecord: DomNutritionRecord) {
-    console.log(nutritionRecord)
-    this.NutritionTrackerAppService.deleteNutritionRecord(nutritionRecord)
+  public updateNutritionRecord() {
+    this.showThrobber = true;
+    this.currentRecord.UserId = this.currentUser;
+
+    this.NutritionTrackerAppService.updateNutritionRecord(this.currentRecord)
+      .then(() => {
+        this.retriveUserNutritionInfo()
+      })
+  }
+
+  public updateUserNutritionGoal() {
+    this.showThrobber = true;
+    this.NutritionTrackerAppService.updateUserNutritionGoal(this.userNutritionGoal).then(() => {
+      this.retriveUserNutritionInfo()
+    })
+  }
+
+  public deleteNutritionRecord() {
+    this.NutritionTrackerAppService.deleteNutritionRecord(this.currentRecord)
     .then(() => {
       this.retriveUserNutritionInfo();
     });

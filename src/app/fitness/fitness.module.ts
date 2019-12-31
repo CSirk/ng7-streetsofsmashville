@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { MzButtonModule, MzSelectModule, MzInputModule, MzTabModule, MzCardModule, MzProgressModule, MzIconModule, MzIconMdiModule, MzTooltipModule } from 'ngx-materialize';
+import { MzButtonModule, MzSelectModule, MzInputModule, MzTabModule, MzModalModule, MzCardModule, MzProgressModule, MzIconModule, MzIconMdiModule, MzTooltipModule } from 'ngx-materialize';
 
 
 import { FitnessRoutingModule } from './fitness-routing.module';
@@ -29,6 +29,7 @@ import { NutritionTrackerAppService } from './apps/nutrition-tracker-app/nutriti
     MzInputModule,
     MzCardModule,
     MzProgressModule,
+    MzModalModule,
     MzIconMdiModule,
     MzIconModule,
     MzTooltipModule,

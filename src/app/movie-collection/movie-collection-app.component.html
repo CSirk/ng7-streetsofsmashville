@@ -6,6 +6,14 @@
                 <input mz-input id="userIdBox" type="password" class="valign center" placeholder="User Id" [(ngModel)]="userId">
             </div>
         <div>
+        
+    </div>
+</div>
+<div *ngIf="showThrobber" class="row">
+    <spinner></spinner>
+</div>
+<div class="row">
+    <div class="col s12" id="tabarea">
         <div class="row">
             <div class="input-field col s2 offset-s2 m2 offset-m5 l2 offset-l5" (click)="preventDefAndProp($event)">
                 <mz-select-container>
@@ -23,9 +31,7 @@
         <div class="row">
             <button mz-button class="btn" (click)="searchMovieCollection()">Search</button>
         </div>
-        <div *ngIf="showThrobber" class="row">
-            <spinner></spinner>
-        </div>
+        
         <div *ngIf="showError" class="row">
             <mz-card>
                 <mz-card-content>
@@ -33,32 +39,112 @@
                 </mz-card-content>
             </mz-card>
         </div>
-        <div *ngFor="let record of movieRecords" class="col s12 m6 l4">
+        <div *ngFor="let record of movieRecords" class="col s12 m4 l4">
             <mz-card>
                 <mz-card-title>{{record.Title}}</mz-card-title>
                 <mz-card-content>
-                    <img src={{record.LogoUrl}} height="200" width="200"/>
-                    <div *ngIf="record.Series != ''">
-                        <h6>Series: {{record.Series}}</h6>
-                    </div>
-                    <h6>Year: {{record.Year}}</h6>
-                    <h6>Genre: {{record.Genre}}</h6>
-                    <h6>Actor(s): {{record.Actors}}</h6>
+                    <img src={{record.LogoUrl}} width="400px" height="400px"/>
                     <div class="row">
-                        <div *ngIf="record.IsDisc" class="col s6">
-                            <i mz-icon [align]="'center'" [icon]="'adjust'" [size]="'small'"></i>
+                        <div class="col s6">
+                            <mz-card-action>
+                                <a mz-tooltip [tooltip]="searchType">Info</a>
+                            </mz-card-action>
                         </div>
-                        <div *ngIf="record.IsDigital" class="col s6">
-                            <i mz-icon [align]="'center'" [icon]="'computer'" [size]="'small'"></i>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div *ngIf="record.IsFavorite">
-                            <i mz-icon [align]="'center'" [icon]="'favorite_border'" [size]="'small'"></i>
+                        <div class="col s6">
+                            <mz-card-action>
+                                <button (click)="onOpenEditMovieRecordModal(record)"><a (click)="addEditMovieRecordModal.openModal()">Edit</a></button>
+                            </mz-card-action>
                         </div>
                     </div>
                 </mz-card-content>
             </mz-card>
         </div> 
     </div>
+</div>
+
+<mz-modal [fixedFooter]="true" #addEditMovieRecordModal>
+    <mz-modal-header>
+        <h4>{{addEditMovieRecordModalTitle}}</h4>
+    </mz-modal-header>
+    <mz-modal-content>
+        <div class="row">
+            <div class="col s6">
+                <mz-input-container>
+                    <input mz-input [label]="'Title'" [(ngModel)]="addEditMovieRecord.Title" class="valign center">
+                </mz-input-container>
+            </div>
+            <div class="col s6">
+                <mz-input-container>
+                    <input mz-input [label]="'Series'" [(ngModel)]="addEditMovieRecord.Series" class="valign center">
+                </mz-input-container>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s3" (click)="preventDefAndProp($event)">
+                    <mz-select-container>
+                        <select mz-select [label]="'Disc'" [placeholder]="'False'" id="is-disc-edit-select" [(ngModel)]="toAddEditIsDisc">
+                            <option>True</option>
+                            <option>False</option>
+                        </select>
+                    </mz-select-container>
+                </div>
+            <div class="input-field col s3" (click)="preventDefAndProp($event)">
+                <mz-select-container>
+                    <select mz-select [label]="'Digital'" [placeholder]="'False'" id="is-digital-edit-select" [(ngModel)]="toAddEditIsDigital">
+                        <option>True</option>
+                        <option>False</option>
+                    </select>
+                </mz-select-container>
+            </div>
+            <div class="input-field col s3" (click)="preventDefAndProp($event)">
+                <mz-select-container>
+                    <select mz-select [label]="'Favorite'" [placeholder]="'False'" id="is-favorite-edit-select" [(ngModel)]="toAddEditIsFavorite">
+                        <option>True</option>
+                        <option>False</option>
+                    </select>
+                </mz-select-container>
+            </div>
+            <div class="input-field col s3" (click)="preventDefAndProp($event)">
+                <mz-select-container>
+                    <select mz-select [label]="'Wishlist'" [placeholder]="'False'" id="is-wishlist-edit-select"  [(ngModel)]="toAddEditIsOnWishlist">
+                        <option>True</option>
+                        <option>False</option>
+                    </select>
+                </mz-select-container>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12" (click)="preventDefAndProp($event)">
+                <mz-select-container>
+                    <select mz-select [label]="'Genre'" [placeholder]="'Action'" id="genre-select" [(ngModel)]="selectedGenres" multiple>
+                        <option *ngFor="let genre of genres">{{genre}}</option>
+                    </select>
+                </mz-select-container>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12 valign center">
+                <mz-input-container>
+                    <input mz-input [label]="'Logo Url'" [(ngModel)]="addEditMovieRecord.LogoUrl" class="valign center">
+                </mz-input-container>
+            </div>
+        </div>
+        <div class="row">
+            <div class="s12">
+                <mz-chip-input 
+                    [placeholder]="'Actor(s)'" [secondaryPlaceholder]="'+Actor'" (add)="onActorChipAdd($event)" (delete)="onActorChipDelete($event)">
+                </mz-chip-input>
+            </div>
+        </div>
+    </mz-modal-content>
+    <mz-modal-footer>
+        <button mz-button [flat]="true" mz-modal-close (click)="addMovieRecord()">Save</button>
+        <button mz-button [flat]="true" mz-modal-close>Delete</button>
+        <button mz-button [flat]="true" mz-modal-close>Cancel</button>
+    </mz-modal-footer>
+</mz-modal>
+<div class="fixed-action-btn" *ngIf="collectionLoaded">
+    <button id="star-button" mz-button [float]="true" [large]="true" (click)="addEditMovieRecordModal.openModal()">
+        <i mz-icon [align]="'center'" [icon]="'add'" [size]="'small'" (click)="onOpenAddMovieRecordModal()"></i>
+    </button>
 </div>
