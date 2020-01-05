@@ -6,6 +6,7 @@ import { DomNutrient } from './models/dom-nutrient';
 import { DomNutritionGoal } from './models/dom-nutrition-goal';
 import { DomUserFitnessProfile } from './models/dom-user-fitness-profile';
 import { NutrientProgressRecord } from './models/nutrient-progess-record';
+import { UserAwardInfo } from './models/user-award-info';
 
 @Component({
   templateUrl: './nutrition-tracker-app.component.html'
@@ -39,6 +40,8 @@ export class NutritionTrackerAppComponent {
 
   constructor(public NutritionTrackerAppService: NutritionTrackerAppService) {
     this.baseNutritionRecord = { Id: 0, Date: '', UserId: '', RecordType: '', RecordName: 'Untitled Record', NutrientRecordId: 0, Nutrients: new Array() }
+    this.userProfile = new DomUserFitnessProfile();
+    this.userProfile.UserAwardInfo = new UserAwardInfo();
   }
 
   public userSavedRecordSelectChange (event: any) {
@@ -109,6 +112,8 @@ export class NutritionTrackerAppComponent {
 
       this.baseNutritionRecord.Nutrients = data.BaseNutrients;
       this.currentRecord = this.baseNutritionRecord;
+
+      console.log(this.userProfile)
 
       this.currentRecord.Nutrients.sort(function (nutrient1, nutrient2) {
 

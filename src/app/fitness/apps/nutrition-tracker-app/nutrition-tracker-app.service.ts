@@ -8,7 +8,6 @@ import { DomNutritionGoal } from './models/dom-nutrition-goal';
 export class NutritionTrackerAppService {
    constructor(private http: HttpClient) {}
 
-   results: string[];
    baseUrl: string = 'https://streetsofsmashvilleapi.azurewebsites.net/api/NutritionTrackerApp/';
    //baseUrl: string = 'https://localhost:5001/api/NutritionTrackerApp/';
 

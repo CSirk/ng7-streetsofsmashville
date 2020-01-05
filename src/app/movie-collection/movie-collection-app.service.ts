@@ -7,8 +7,8 @@ export class MovieCollectionAppService {
    constructor(private http: HttpClient) {}
 
    results: string[];
-   //baseUrl: string = 'https://streetsofsmashvilleapi.azurewebsites.net/api/moviecollectionapp/';
-   baseUrl: string = 'https://localhost:5001/api/moviecollectionapp/';
+   baseUrl: string = 'https://streetsofsmashvilleapi.azurewebsites.net/api/moviecollectionapp/';
+   //baseUrl: string = 'https://localhost:5001/api/moviecollectionapp/';
 
    public getMovieCollection() : Promise<MovieRecord[]> {
      let url = this.baseUrl + 'getmoviecollection';

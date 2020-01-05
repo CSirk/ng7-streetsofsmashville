@@ -44,10 +44,26 @@
 <mz-modal [fixedFooter]="true" [fullscreen]="true" #nutritionAppModal>
     <!--Profile Modal View-->
     <mz-modal-header *ngIf="showProfileModalView">
-        <h4>Profile</h4>
+        <h2>{{userProfile.UserId}}</h2>
+        <h4>{{userProfile.Gender}} {{userProfile.Age}}</h4>
     </mz-modal-header>
     <mz-modal-content *ngIf="showProfileModalView">
-        <h2>Content for Profile</h2>
+        <mz-card>
+            <mz-card-title>Awards</mz-card-title>
+            <mz-card-content>
+                <div class="row">
+                    <div *ngFor="let awardInfo of userProfile.AwardInfo" class="col s3">
+                        <i *ngIf="awardInfo.ColorToShow == 'Black'" mz-icon [align]="'center'" [icon]="awardInfo.AwardIconName" [size]="'large'" style="color: black" mz-tooltip [tooltip]="awardInfo.AwardName + ': ' + awardInfo.Description" [position]="'top'"></i>
+                        <i *ngIf="awardInfo.ColorToShow == 'Bronze'" mz-icon [align]="'center'" [icon]="awardInfo.AwardIconName" [size]="'large'" style="color: brown" mz-tooltip [tooltip]="awardInfo.AwardName + ': ' + awardInfo.Description" [position]="'top'"></i>
+                        <i *ngIf="awardInfo.ColorToShow == 'Silver'" mz-icon [align]="'center'" [icon]="awardInfo.AwardIconName" [size]="'large'" style="color: silver" mz-tooltip [tooltip]="awardInfo.AwardName + ': ' + awardInfo.Description" [position]="'top'"></i>
+                        <i *ngIf="awardInfo.ColorToShow == 'Gold'" mz-icon [align]="'center'" [icon]="awardInfo.AwardIconName" [size]="'large'" style="color: gold" mz-tooltip [tooltip]="awardInfo.AwardName + ': ' + awardInfo.Description" [position]="'top'"></i>
+                        <i *ngIf="awardInfo.ColorToShow == 'Platinum'" mz-icon [align]="'center'" [icon]="awardInfo.AwardIconName" [size]="'large'" style="color: darkslategrey" mz-tooltip [tooltip]="awardInfo.AwardName + ': ' + awardInfo.Description" [position]="'top'"></i>
+                        <i *ngIf="awardInfo.ColorToShow == 'Diamond'" mz-icon [align]="'center'" [icon]="awardInfo.AwardIconName" [size]="'large'" style="color: aqua" mz-tooltip [tooltip]="awardInfo.AwardName + ': ' + awardInfo.Description" [position]="'top'"></i>
+                        <h4>({{awardInfo.UserAchievedCount}})</h4>
+                    </div>
+                </div>
+            </mz-card-content>
+        </mz-card>
     </mz-modal-content>
     <mz-modal-footer *ngIf="showProfileModalView">  
         <button mz-button [flat]="true" mz-modal-close>Save Profile</button>
