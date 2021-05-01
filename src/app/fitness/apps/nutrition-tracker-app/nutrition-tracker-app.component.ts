@@ -3,60 +3,47 @@ import { NutritionTrackerAppService } from './nutrition-tracker-app.service';
 import { DomNutritionRecord } from './models/dom-nutrition-record';
 import { UserNutritionInfo } from './models/user-nutrition-info';
 import { DomNutrient } from './models/dom-nutrient';
+import { DisplayNutritionRecord } from './models/display-nutrition-record';
 import { DomNutritionGoal } from './models/dom-nutrition-goal';
-import { DomUserFitnessProfile } from './models/dom-user-fitness-profile';
-import { NutrientProgressRecord } from './models/nutrient-progess-record';
-import { UserAwardInfo } from './models/user-award-info';
+import { DisplayGoalRecord } from './models/display-goal-record';
 
 @Component({
   templateUrl: './nutrition-tracker-app.component.html'
 })
 export class NutritionTrackerAppComponent {
-  public appName = "Nutrition Tracker App"
-  public currentUser: string;
-  public showThrobber: boolean;
-  public userLoaded: boolean;
+  currentUser: string;
+  userLoaded: boolean;
+  showThrobber: boolean;
+  showGoalsModalView: boolean;
+  showNutritionModalView: boolean;
+  showProfileModalView: boolean;
+  editingUserSavedRecord: boolean;
+  editingProgressRecord: boolean;
+  userNutritionInfo: UserNutritionInfo;
+  currentNutritionRecord: DisplayNutritionRecord = new DisplayNutritionRecord();
+  currentGoalRecord: DisplayGoalRecord = new DisplayGoalRecord();
+  initialBoxValue = "";
+  secondBoxValue = "";
 
-  public userProgressRecords: DomNutritionRecord[] = new Array();
-  public userSavedRecords: DomNutritionRecord[] = new Array();
-  public globalSavedRecords: DomNutritionRecord[] = new Array();
-  public currentRecord: DomNutritionRecord = new DomNutritionRecord();
-  public baseNutrients: DomNutrient[] = new Array();
-  public userNutritionGoal: DomNutritionGoal;
-  public recommendedNutritionGoal: DomNutritionGoal;
-  public userProfile: DomUserFitnessProfile;
-  public nutrientProgressRecords: NutrientProgressRecord[] = new Array();
+  public modalOptions: Materialize.ModalOptions = {
+    dismissible: false
+  };
 
-  public showGoalsModalView: boolean = false;
-  public showNutritionModalView: boolean = false;
-  public showProfileModalView: boolean = false;
-  public editingUserSavedRecord: boolean = false;
-  public editingProgressRecord: boolean = false;
-
-  public baseNutritionRecord: DomNutritionRecord;
-
-  public initialBoxValue = "";
-  public secondBoxValue = "";
-
-  constructor(public NutritionTrackerAppService: NutritionTrackerAppService) {
-    this.baseNutritionRecord = { Id: 0, Date: '', UserId: '', RecordType: '', RecordName: 'Untitled Record', NutrientRecordId: 0, Nutrients: new Array() }
-    this.userProfile = new DomUserFitnessProfile();
-    this.userProfile.UserAwardInfo = new UserAwardInfo();
-  }
+  constructor(public NutritionTrackerAppService: NutritionTrackerAppService) { }
 
   public userSavedRecordSelectChange (event: any) {
-    let pos = this.userSavedRecords.map(function(e) { console.log(e); return e.RecordName; }).indexOf(event.target.value);
-    let record = this.userSavedRecords[pos];
+    let pos = this.userNutritionInfo.RecordCollection.UserSavedRecords.map(function(e) { return e.RecordName; }).indexOf(event.target.value);
+    let record = this.userNutritionInfo.RecordCollection.UserSavedRecords[pos];
 
-    this.currentRecord = record;
+    this.setDisplayRecord(record);
     this.editingUserSavedRecord = true;
   }
 
-  public userProgressRecordSelectChange (event: any) {
-    let pos = this.userProgressRecords.map(function(e) { console.log(e); return e.RecordName; }).indexOf(event.target.value);
-    let record = this.userProgressRecords[pos];
+  public userDailyRecordSelectChange (event: any) {
+    let pos = this.userNutritionInfo.RecordCollection.UserDailyRecords.map(function(e) { return e.RecordName; }).indexOf(event.target.value);
+    let record = this.userNutritionInfo.RecordCollection.UserDailyRecords[pos];
 
-    this.currentRecord = record;
+    this.setDisplayRecord(record);
     this.editingProgressRecord = true;
   }
 
@@ -80,7 +67,7 @@ export class NutritionTrackerAppComponent {
   }
 
   public convertPercentToNumber(nutrient: DomNutrient) : void {
-    let recGoalNutrients = this.recommendedNutritionGoal.Nutrients;
+    let recGoalNutrients = this.userNutritionInfo.RecommendedNutritionGoal.Nutrients;
     for(let i = 0; i < recGoalNutrients.length; i++) {
       if(recGoalNutrients[i].Name == nutrient.Name) {
         nutrient.Amount = (recGoalNutrients[i].Amount * (nutrient.Amount * .01));
@@ -98,93 +85,143 @@ export class NutritionTrackerAppComponent {
   }
 
   public retriveUserNutritionInfo() : void {
-    this.showThrobber = true;
-
+    this.toggleThrobber(true);
     this.NutritionTrackerAppService.getUserNutritionInfo(this.currentUser).then((data) => {
 
-      this.globalSavedRecords = data.RecordCollection.GlobalSavedRecords;
-      this.userProgressRecords = data.RecordCollection.UserDailyRecords;
-      this.userSavedRecords = data.RecordCollection.UserSavedRecords;
-      this.userNutritionGoal = data.UserDailyNutritionGoal;
-      this.recommendedNutritionGoal = data.RecommendedNutritionGoal;
-      this.userProfile = data.UserProfile;
-      this.nutrientProgressRecords = data.NutrientProgressRecords;
-
-      this.baseNutritionRecord.Nutrients = data.BaseNutrients;
-      this.currentRecord = this.baseNutritionRecord;
-
-      console.log(this.userProfile)
-
-      this.currentRecord.Nutrients.sort(function (nutrient1, nutrient2) {
-
-        // Sort by display order, if first is lower move it up, higher down
-        if (nutrient1.DisplayOrder < nutrient2.DisplayOrder) return -1;
-        if (nutrient1.DisplayOrder > nutrient2.DisplayOrder) return 1;
+      this.userNutritionInfo = data;
+      this.currentNutritionRecord.Nutrients = JSON.parse(JSON.stringify(data.BaseNutrients));
+      this.currentGoalRecord.Nutrients = JSON.parse(JSON.stringify(data.BaseNutrients));
       
-        // Sort by name alphabetically, if first is alphabetically first move up, else down
-        if (nutrient1.Name > nutrient2.Name) return 1;
-        if (nutrient1.Name < nutrient2.Name) return -1;
-      
-      });
-
       this.userLoaded = true;
-      this.showThrobber = false;
+      this.toggleThrobber(false);
     });
   };
 
-  public onOpenModalProfileView() {
-    this.showProfileModalView = true;
-    this.showNutritionModalView = false;
-    this.showGoalsModalView = false;
+  onOpenModalView(modalName: string) {
+    if(modalName == "profile") {
+      this.showProfileModalView = true;
+      this.showGoalsModalView = this.showNutritionModalView = false;
+    } else if (modalName == "nutrition") {
+      this.showNutritionModalView = true;
+      this.showProfileModalView = this.showGoalsModalView = false;
+    } else if (modalName == "goals") {
+      this.setGoalDisplayRecord(this.userNutritionInfo.UserDailyNutritionGoal);
+      this.showGoalsModalView = true;
+      this.showProfileModalView = this.showNutritionModalView = false;
+    }
   }
-
-  public onOpenModalNutritionView() {
-    this.showProfileModalView = false;
-    this.showNutritionModalView = true;
-    this.showGoalsModalView = false;
-
-    this.editingProgressRecord = this.editingUserSavedRecord = false;
-  }
-
-  public onOpenModalGoalsView() {
-    this.showProfileModalView = false;
-    this.showNutritionModalView = false;
-    this.showGoalsModalView = true;
-  }
-
+  
   public addNutritionRecord(saveUserRecord: boolean) : void {
-    this.showThrobber = true;
-    this.currentRecord.Id = 0;
-    this.currentRecord.UserId = this.currentUser;
-    this.currentRecord.RecordType = (saveUserRecord == true) ? "UserSaved" : "UserDaily";
+    this.toggleThrobber(true);
 
-    this.NutritionTrackerAppService.addNutritionRecord(this.currentRecord)
+    let nutritionRecordToAdd: DomNutritionRecord =
+    {
+      Id: 0,
+      Nutrients: new Array(),
+      UserId: this.userNutritionInfo.UserProfile.UserId,
+      RecordType: (saveUserRecord == true) ? "UserSaved" : "UserDaily",
+      RecordName: this.currentNutritionRecord.RecordName,
+      Date: ""
+    };
+
+    this.currentNutritionRecord.Nutrients.forEach(x => nutritionRecordToAdd.Nutrients.push({Name: x.Name, Amount: x.Amount}));
+
+    this.NutritionTrackerAppService.addNutritionRecord(nutritionRecordToAdd).then(() => {
+      this.retriveUserNutritionInfo()
+    })
+  }
+
+  public updateNutritionRecord() {
+    this.toggleThrobber(true);
+    this.currentNutritionRecord.UserId = this.currentUser;
+
+    let recordToUpdate: DomNutritionRecord =
+    {
+      Id: this.currentNutritionRecord.Id,
+      Nutrients: new Array(),
+      UserId: this.userNutritionInfo.UserProfile.UserId,
+      RecordType: this.currentNutritionRecord.RecordType,
+      RecordName: this.currentNutritionRecord.RecordName,
+      Date: ""
+    };
+
+    this.currentNutritionRecord.Nutrients.forEach(x => recordToUpdate.Nutrients.push({Name: x.Name, Amount: x.Amount}));
+
+    this.NutritionTrackerAppService.updateNutritionRecord(recordToUpdate)
     .then(() => {
       this.retriveUserNutritionInfo()
     })
-  };
-
-  public updateNutritionRecord() {
-    this.showThrobber = true;
-    this.currentRecord.UserId = this.currentUser;
-
-    this.NutritionTrackerAppService.updateNutritionRecord(this.currentRecord)
-      .then(() => {
-        this.retriveUserNutritionInfo()
-      })
   }
 
   public updateUserNutritionGoal() {
-    this.showThrobber = true;
-    this.NutritionTrackerAppService.updateUserNutritionGoal(this.userNutritionGoal).then(() => {
+    this.toggleThrobber(true);
+    this.currentGoalRecord.UserId = this.userNutritionInfo.UserProfile.UserId;
+    this.NutritionTrackerAppService.updateUserNutritionGoal(this.currentGoalRecord)
+    .then(() => {
       this.retriveUserNutritionInfo()
     })
   }
 
   public deleteNutritionRecord() {
-    this.NutritionTrackerAppService.deleteNutritionRecord(this.currentRecord)
+    this.toggleThrobber(true);
+    this.NutritionTrackerAppService.deleteNutritionRecord(this.currentNutritionRecord)
     .then(() => {
       this.retriveUserNutritionInfo();
     });
+  }
+
+  public setDisplayRecord(record: DomNutritionRecord) {
+    this.currentNutritionRecord.Id = record.Id;
+    this.currentNutritionRecord.RecordName = record.RecordName;
+    this.currentNutritionRecord.RecordType = record.RecordType;
+    this.currentNutritionRecord.Nutrients.forEach(element => {
+      let index = record.Nutrients.map(function(e) { return e.Name; }).indexOf(element.Name);
+      if(index !== -1) {
+        element.Amount = record.Nutrients[index].Amount;
+      } else {
+        element.Amount = 0;
+      }
+    });
+  }
+
+  public setGoalDisplayRecord(record: DomNutritionGoal) {
+    this.currentGoalRecord.Id = record.Id;
+    this.currentGoalRecord.UserId = record.UserId;
+    this.currentGoalRecord.Nutrients.forEach(element => {
+      let index = record.Nutrients.map(function(e) { return e.Name; }).indexOf(element.Name);
+      if(index !== -1) {
+        element.Amount = record.Nutrients[index].Amount;
+      } else {
+        element.Amount = 0;
+      }
+    });
+  }
+
+  toggleThrobber(show: boolean) {
+    if(show === true) {
+      this.showThrobber = true;
+    } else {
+      this.showThrobber = false;
+    }
+  }
+
+  resetNutritionRecordToBase() {
+    this.currentNutritionRecord.Id = 0;
+    this.currentNutritionRecord.RecordName = "";
+    this.currentNutritionRecord.RecordType = "";
+    this.currentNutritionRecord.Nutrients = JSON.parse(JSON.stringify(this.userNutritionInfo.BaseNutrients));
+  }
+
+  resetGoalRecordToBase() {
+    this.currentGoalRecord.Id = 0;
+    this.currentGoalRecord.Nutrients = JSON.parse(JSON.stringify(this.userNutritionInfo.BaseNutrients));
+  }
+
+  cancelNutritionModal() {
+    this.resetNutritionRecordToBase();
+  }
+
+  cancelGoalModal() {
+    this.resetGoalRecordToBase();
   }
 }

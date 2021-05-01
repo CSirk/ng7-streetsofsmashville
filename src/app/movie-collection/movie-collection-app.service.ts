@@ -12,7 +12,6 @@ export class MovieCollectionAppService {
 
    public getMovieCollection() : Promise<MovieRecord[]> {
      let url = this.baseUrl + 'getmoviecollection';
-     console.log(url)
      return this.http.get<MovieRecord[]>(url).toPromise();
    };
 

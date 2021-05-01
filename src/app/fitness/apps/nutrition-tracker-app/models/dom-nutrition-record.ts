@@ -1,11 +1,10 @@
-import { DomNutrient } from './dom-nutrient';
+import { BasicNutrient } from './basic-nutrient';
 
 export class DomNutritionRecord {
     Id: number;
     UserId: string;
-    RecordType: string;
     Date: string;
+    RecordType: string;
     RecordName: string;
-    NutrientRecordId: number;
-    Nutrients: DomNutrient[];
+    Nutrients: BasicNutrient[];
 }

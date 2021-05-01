@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col s12 m12 l12 valign center">
-    <h4>{{appName}}</h4>
+    <h4>Nutrition Tracker App</h4>
   </div>
 </div>
 <!--Retrieve User By Id-->
@@ -14,11 +14,12 @@
 <div *ngIf="showThrobber" class="row">
   <spinner></spinner>
 </div>
+<!--Progress Records-->
 <div class="row">
   <div *ngIf="userLoaded" class="col s12">
-    <div *ngFor="let record of nutrientProgressRecords" class="col s12 m4 l3">
+    <div *ngFor="let record of userNutritionInfo.NutrientProgressRecords" class="col s12 m4 l3">
         <mz-card>
-            <mz-card-title>{{record.NutrientName}} </mz-card-title>
+            <mz-card-title>{{record.DisplayName}} </mz-card-title>
             <mz-card-content>
                 <mz-progress *ngIf="record.GoalIsHigh" [backgroundClass]="'grey lighten-4'" [percentage]="record.ProgressAmount == 0 ? 0 : (record.ProgressAmount / record.GoalAmount) * 100" [progressClass]="'green'"></mz-progress>
                 <mz-progress *ngIf="!record.GoalIsHigh" [backgroundClass]="'grey lighten-4'" [percentage]="record.ProgressAmount == 0 ? 0 : (record.ProgressAmount / record.GoalAmount) * 100" [progressClass]="'red'"></mz-progress>
@@ -33,26 +34,26 @@
             <i mz-icon [align]="'center'" [icon]="'apps'" [size]="'small'"></i>
         </a>
         <ul>
-          <li><a class="btn-floating blue" (click)="nutritionAppModal.openModal()"><i mz-icon [align]="'center'" [icon]="'account_circle'" [size]="'small'" (click)="onOpenModalProfileView()"></i></a></li>
-          <li><a class="btn-floating blue" (click)="nutritionAppModal.openModal()"><i mz-icon [align]="'center'" [icon]="'restaurant'" [size]="'small'" (click)="onOpenModalNutritionView()"></i></a></li>
-          <li><a class="btn-floating blue" (click)="nutritionAppModal.openModal()"><i mz-icon [align]="'center'" [icon]="'emoji_events'" [size]="'small'" (click)="onOpenModalGoalsView()"></i></a></li>
+          <li><a class="btn-floating blue" (click)="nutritionAppModal.openModal()"><i mz-icon [align]="'center'" [icon]="'account_circle'" [size]="'small'" (click)="onOpenModalView('profile')"></i></a></li>
+          <li><a class="btn-floating blue" (click)="nutritionAppModal.openModal()"><i mz-icon [align]="'center'" [icon]="'restaurant'" [size]="'small'" (click)="onOpenModalView('nutrition')"></i></a></li>
+          <li><a class="btn-floating blue" (click)="nutritionAppModal.openModal()"><i mz-icon [align]="'center'" [icon]="'emoji_events'" [size]="'small'" (click)="onOpenModalView('goals')"></i></a></li>
         </ul>
       </div>
   </div>
 </div>
 
-<mz-modal [fixedFooter]="true" [fullscreen]="true" #nutritionAppModal>
+<mz-modal [fixedFooter]="true" [fullscreen]="true" [options]="modalOptions" #nutritionAppModal>
     <!--Profile Modal View-->
     <mz-modal-header *ngIf="showProfileModalView">
-        <h2>{{userProfile.UserId}}</h2>
-        <h4>{{userProfile.Gender}} {{userProfile.Age}}</h4>
+        <h2>{{userNutritionInfo.UserProfile.UserId}}</h2>
+        <h4>{{userNutritionInfo.UserProfile.Gender}} {{userNutritionInfo.UserProfile.Age}}</h4>
     </mz-modal-header>
     <mz-modal-content *ngIf="showProfileModalView">
         <mz-card>
             <mz-card-title>Awards</mz-card-title>
             <mz-card-content>
                 <div class="row">
-                    <div *ngFor="let awardInfo of userProfile.AwardInfo" class="col s3">
+                    <div *ngFor="let awardInfo of userNutritionInfo.UserProfile.AwardInfo" class="col s3">
                         <i *ngIf="awardInfo.ColorToShow == 'Black'" mz-icon [align]="'center'" [icon]="awardInfo.AwardIconName" [size]="'large'" style="color: black" mz-tooltip [tooltip]="awardInfo.AwardName + ': ' + awardInfo.Description" [position]="'top'"></i>
                         <i *ngIf="awardInfo.ColorToShow == 'Bronze'" mz-icon [align]="'center'" [icon]="awardInfo.AwardIconName" [size]="'large'" style="color: brown" mz-tooltip [tooltip]="awardInfo.AwardName + ': ' + awardInfo.Description" [position]="'top'"></i>
                         <i *ngIf="awardInfo.ColorToShow == 'Silver'" mz-icon [align]="'center'" [icon]="awardInfo.AwardIconName" [size]="'large'" style="color: silver" mz-tooltip [tooltip]="awardInfo.AwardName + ': ' + awardInfo.Description" [position]="'top'"></i>
@@ -83,8 +84,8 @@
             <!--User Progress Records Dropdown-->
             <div class="input-field col s12 m4 l4" (click)="preventDefAndProp($event)">
                 <mz-select-container>
-                    <select mz-select [label]="'User Progress Records'" [placeholder]="'User Progress Records'" id="user-record-options-select" (change)="userProgressRecordSelectChange($event)">
-                        <option *ngFor="let progressRecord of userProgressRecords">{{progressRecord.RecordName}}</option>
+                    <select mz-select [label]="'User Progress Records'" [placeholder]="'User Progress Records'" id="user-record-options-select" (change)="userDailyRecordSelectChange($event)">
+                        <option *ngFor="let dailyRecord of userNutritionInfo.RecordCollection.UserDailyRecords">{{dailyRecord.RecordName}}</option>
                     </select>
                 </mz-select-container>
             </div>
@@ -93,7 +94,7 @@
             <div class="input-field col s12 m4 l4" (click)="preventDefAndProp($event)">
                 <mz-select-container>
                     <select mz-select [label]="'User Saved Records'" [placeholder]="'User Saved Records'" id="user-record-options-select" (change)="userSavedRecordSelectChange($event)">
-                        <option *ngFor="let userRecord of userSavedRecords">{{userRecord.RecordName}}</option>
+                        <option *ngFor="let userSavedRecord of userNutritionInfo.RecordCollection.UserSavedRecords">{{userSavedRecord.RecordName}}</option>
                     </select>
                 </mz-select-container>
             </div>
@@ -102,7 +103,7 @@
             <div class="input-field col s12 m4 l4" (click)="preventDefAndProp($event)">
                 <mz-select-container>
                     <select mz-select [label]="'Global Saved Records'" [placeholder]="'Global Saved Records'" id="global-record-options-select" >
-                        <option *ngFor="let globalRecord of globalSavedRecords">{{globalRecord.RecordName}}</option>
+                        <option *ngFor="let globalSavedRecord of userNutritionInfo.RecordCollection.GlobalSavedRecords">{{globalSavedRecord.RecordName}}</option>
                     </select>
                 </mz-select-container>
             </div>
@@ -112,11 +113,11 @@
                 <!--Record Name Textbox-->
                 <div class="input-field valign center">
                     <mz-input-container>
-                        <input mz-input [label]="'Record Name'" [(ngModel)]="currentRecord.RecordName" class="valign center">
+                        <input mz-input [label]="'Record Name'" [(ngModel)]="currentNutritionRecord.RecordName" class="valign center">
                     </mz-input-container>
                 </div>
                 <!--Nutrient Textboxes-->
-                <div *ngFor="let nutrient of currentRecord.Nutrients">
+                <div *ngFor="let nutrient of currentNutritionRecord.Nutrients">
                     <div class="input-field col s3 m3 l3 valign center">
                         <mz-input-container>
                             <input *ngIf="nutrient.Alias" mz-input [label]="nutrient.DisplayName + ' (' + nutrient.MeasurementAbbreviation + ')'" mz-tooltip [tooltip]="nutrient.Alias" [position]="'top'" [(ngModel)]="nutrient.Amount" class="valign center"  (keydown)="keyDownCaptureEvent($event, nutrient)" (input)="inputActionEvent($event, nutrient)">
@@ -132,7 +133,7 @@
         <button *ngIf="editingUserSavedRecord || editingProgressRecord" mz-button [flat]="true" mz-modal-close (click)="deleteNutritionRecord()">Delete Record</button>
         <button mz-button [flat]="true" mz-modal-close (click)="addNutritionRecord(false)">Save As Progress Record</button>
         <button mz-button [flat]="true" mz-modal-close (click)="addNutritionRecord(true)">Save As User Saved Record</button>
-        <button mz-button [flat]="true" mz-modal-close>Cancel</button>
+        <button mz-button [flat]="true" mz-modal-close (click)="cancelNutritionModal()">Cancel</button>
     </mz-modal-footer>
 
     <!--Goals Modal View-->
@@ -140,10 +141,10 @@
         <h4>Goals</h4>
     </mz-modal-header>
     <mz-modal-content *ngIf="showGoalsModalView">
-        <h2>Content for Goals</h2>
+        <h2>Nutrition Goals for {{currentUser}}</h2>
         <div class="col s12">
             <div class="row">
-                <div *ngFor="let nutrient of userNutritionGoal.Nutrients">
+                <div *ngFor="let nutrient of currentGoalRecord.Nutrients">
                     <div class="input-field col s3 m3 l3 valign center">
                         <mz-input-container>
                             <input *ngIf="nutrient.Alias" mz-input [label]="nutrient.DisplayName + ' (' + nutrient.MeasurementAbbreviation + ')'" mz-tooltip [tooltip]="nutrient.Alias" [position]="'top'" [(ngModel)]="nutrient.Amount" class="valign center">
@@ -156,6 +157,6 @@
     </mz-modal-content>
     <mz-modal-footer *ngIf="showGoalsModalView">  
         <button mz-button [flat]="true" mz-modal-close (click)="updateUserNutritionGoal()">Update Goal</button>
-        <button mz-button [flat]="true" mz-modal-close>Cancel</button>
+        <button mz-button [flat]="true" mz-modal-close (click)="cancelGoalModal()">Cancel</button>
     </mz-modal-footer>
 </mz-modal>

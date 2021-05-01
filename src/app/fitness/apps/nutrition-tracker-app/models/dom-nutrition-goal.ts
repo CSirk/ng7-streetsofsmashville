@@ -1,9 +1,8 @@
-import { DomNutrient } from './dom-nutrient';
+import { BasicNutrient } from './basic-nutrient';
 
 export class DomNutritionGoal {
     Id: number;
     UserId: string;
     GoalType: string;
-    NutrientRecordId: number;
-    Nutrients: DomNutrient[];
+    Nutrients: BasicNutrient[];
 }
